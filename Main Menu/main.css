@@ -28,7 +28,14 @@ body {
 }
 
 #BGmusic {
+    cursor:pointer;
     float: right;
+    width: 5%;
+    opacity: 0.85
+}
+
+#BGmusic:hover {
+    opacity: 1;
 }
 
 #title { 
@@ -57,7 +64,7 @@ body {
 }
 
 .button {
-opacity: .9;
+opacity: .85;
 }
 
 .button:hover {
