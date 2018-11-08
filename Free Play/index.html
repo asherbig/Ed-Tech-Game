@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="lib/phaser.js"></script>
+    <style>
+        body {
+            padding: 0;
+            margin: 0;
+       
+        }
+        #canvas {
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: auto;
+            margin-bottom: auto;
+            width: 1366px;
+            height: 768px;
+        }
+    </style>
+</head>
+<body>
+<div id="canvas">
+
+</div>
+    <script>
+        var config = {
+            type: Phaser.AUTO,
+            width: 1366,
+            height: 768,
+            parent: "canvas",
+            scene: {
+                preload: preload,
+                create: create
+            }
+        };
+
+        var game = new Phaser.Game(config);
+
+        function preload () {
+
+            this.load.image('home', 'icons/home.png');
+            this.load.image('freeplay', 'icons/freeplay.png');
+            this.load.image('playlist', 'icons/playlist.png');
+            this.load.image('musicOn', 'icons/toggle-on.png');
+            this.load.image('musicOff', 'icons/toggle-off.png');
+            this.load.image('continue', 'icons/continue.png');
+            this.load.image('freeplayBG', 'images/freeplay-BG.png');
+            this.load.image('slider', 'images/slider.png');
+            this.load.image('wholeNote', 'images/drag-wholenote.png');
+            this.load.image('halfNote', 'images/drag-halfnote.png');
+            this.load.image('quarterNote', 'images/drag-quarternote.png');
+        }
+
+        function create() {
+            this.add.image(685, 384, 'freeplayBG');
+            this.add.image(730, 675, 'slider');
+
+            this.homeBtn = this.add.sprite(90, 70, 'home').setInteractive();
+            this.homeBtn.alpha = 0.85;
+            this.homeBtn.on('pointerover', function (event) {
+            this.alpha = 1;
+                document.body.style.cursor = "pointer";
+            });
+            this.homeBtn.on('pointerout', function (event) {
+            this.alpha = 0.85;
+                document.body.style.cursor = "default";
+            });
+
+            this.freeplayBtn = this.add.sprite(165, 70, 'freeplay').setInteractive();
+            this.freeplayBtn.alpha = 0.85;
+            this.freeplayBtn.on('pointerover', function (event) {
+            this.alpha = 1;
+                document.body.style.cursor = "pointer";
+            });
+            this.freeplayBtn.on('pointerout', function (event) {
+            this.alpha = 0.85;
+                document.body.style.cursor = "default";
+            });
+
+            this.playlistBtn = this.add.sprite(240, 70, 'playlist').setInteractive();
+            this.playlistBtn.alpha = 0.85;
+            this.playlistBtn.on('pointerover', function (event) {
+            this.alpha = 1;
+                document.body.style.cursor = "pointer";
+            });
+            this.playlistBtn.on('pointerout', function (event) {
+            this.alpha = 0.85;
+                document.body.style.cursor = "default";
+            });
+
+            this.MusicBtn = this.add.sprite(1280, 70, 'musicOn').setInteractive();
+            this.MusicBtn.alpha = 0.85;
+            this.MusicBtn.on('pointerover', function (event) {
+            this.alpha = 1;
+                document.body.style.cursor = "pointer";
+            });
+            this.MusicBtn.on('pointerout', function (event) {
+            this.alpha = 0.85;
+                document.body.style.cursor = "default";
+            });
+            this.MusicBtn.on('pointerdown', function (event) {
+                // this.MusicBtn = this.add.sprite(1280, 70, 'musicOff').setInteractive();
+                // this.MusicBtn.alpha = 0.85;
+                // this.MusicBtn.on('pointerover', function (event) { this.alpha = 1;
+                //     document.body.style.cursor = "pointer";
+                // });
+                // this.MusicBtn.on('pointerout', function (event) { this.alpha = 0.85;
+                //     document.body.style.cursor = "default"; 
+                // });
+            });
+
+            this.continueBtn = this.add.sprite(1260, 665, 'continue').setInteractive();
+            this.continueBtn.alpha = 0.85;
+            this.continueBtn.on('pointerover', function (event) {
+            this.alpha = 1;
+                document.body.style.cursor = "pointer";
+            });
+            this.continueBtn.on('pointerout', function (event) {
+            this.alpha = 0.85;
+                document.body.style.cursor = "default";
+            });
+
+            //Set notes as draggable
+            var wholeNote = this.add.sprite(108, 230, 'wholeNote').setInteractive();
+            this.input.setDraggable(wholeNote);
+            this.input.dragDistanceThreshold = 16;
+            this.input.on('dragstart', function (pointer, gameObject) {
+                gameObject.setTint(0xff0000);
+            });
+            this.input.on('drag', function (pointer, gameObject, dragX, dragY) {
+                gameObject.x = dragX;
+                gameObject.y = dragY;
+            });
+            this.input.on('dragend', function (pointer, gameObject) {
+                gameObject.clearTint();
+            });
+
+            var halfNote = this.add.sprite(108, 345, 'halfNote').setInteractive();
+            this.input.setDraggable(halfNote);
+            this.input.dragDistanceThreshold = 16;
+            this.input.on('dragstart', function (pointer, gameObject) {
+                gameObject.setTint(0xff0000);
+            });
+            this.input.on('drag', function (pointer, gameObject, dragX, dragY) {
+                gameObject.x = dragX;
+                gameObject.y = dragY;
+            });
+            this.input.on('dragend', function (pointer, gameObject) {
+                gameObject.clearTint();
+            });
+
+            var quarterNote = this.add.sprite(108, 495, 'quarterNote').setInteractive();
+            this.input.setDraggable(quarterNote);
+            this.input.dragDistanceThreshold = 16;
+            this.input.on('dragstart', function (pointer, gameObject) {
+                gameObject.setTint(0xff0000);
+            });
+            this.input.on('drag', function (pointer, gameObject, dragX, dragY) {
+                gameObject.x = dragX;
+                gameObject.y = dragY;
+            });
+            this.input.on('dragend', function (pointer, gameObject) {
+                gameObject.clearTint();
+            });
+        }
+    </script>
+</body>
+</html>
