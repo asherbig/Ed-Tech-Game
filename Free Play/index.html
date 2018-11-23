@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <script src="lib/phaser-2.js"></script>
+    <script src='lib/phaser-2.js'></script>
+    <script src='assets/slick-ui-master/dist/slick-ui.min.js'></script>
     <style>
         body {
             padding: 0;
@@ -31,12 +32,15 @@
             game.load.image('musicOff', 'icons/toggle-off.png');
             game.load.image('continueBtn', 'icons/continue.png');
             game.load.image('freeplayBG', 'images/freeplay-BG.png');
-            game.load.image('slider', 'images/slider.png');
+            game.load.image('slider', 'images/slider-base.png');
             game.load.image('wholeNote', 'images/drag-wholenote.png');
             game.load.image('halfNote', 'images/drag-halfnote.png');
             game.load.image('quarterNote', 'images/drag-quarternote.png');
+
+            slickUI = game.plugins.add(Phaser.Plugin.SlickUI);
+            slickUI.load('assets/slick-ui-master/themes/custom-theme/custom.json');
         }
-        var homeBtn, freeplayBtn, playlistBtn, musicOn, musicOff, continueBtn, wholeNote;
+        var homeBtn, freeplayBtn, playlistBtn, musicOn, musicOff, continueBtn, wholeNote, panel, slider;
 
         function create() {
             //Set background
@@ -108,6 +112,15 @@
             function dragStop(event) {
                 window[event.key].alpha = 1;
             }
+
+            //Instantiate slider
+            slickUI.add(panel = new SlickUI.Element.Panel(370, 570, 722, 70));
+            panel.add(slider = new SlickUI.Element.Slider(20, 90, panel.width - 43));
+            
+            //Set slider actions
+            slider.onDragStop.add(function (value) {
+                console.log('Stop dragging at ' + Math.round(value * 100) + '%');
+            });
         }
     </script>
 </body>
