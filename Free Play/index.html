@@ -36,11 +36,12 @@
             game.load.image('wholeNote', 'images/drag-wholenote.png');
             game.load.image('halfNote', 'images/drag-halfnote.png');
             game.load.image('quarterNote', 'images/drag-quarternote.png');
+            // game.load.audio();
 
             slickUI = game.plugins.add(Phaser.Plugin.SlickUI);
             slickUI.load('assets/slick-ui-master/themes/custom-theme/custom.json');
         }
-        var homeBtn, freeplayBtn, playlistBtn, musicOn, musicOff, continueBtn, wholeNote, panel, slider, test;
+        var homeBtn, freeplayBtn, playlistBtn, musicOn, musicOff, continueBtn, wholeNote, panel, slider, volume;
 
         function create() {
             //Set background
@@ -83,39 +84,39 @@
                 document.body.style.cursor = "default";
             }
             function actionOnClick(event) {
-                console.log(event.key, "clicked!");
+                if (event.key == 'musicOn') {
+                    musicOn.destroy();
+                    musicOff = game.add.button(1250, 40, 'musicOff', actionOnClick, this);
+                    musicOff.alpha = 0.85;
+                    musicOff.onInputOver.add(over, this);
+                    musicOff.onInputOut.add(out, this);
+                } else if (event.key == 'musicOff') {
+                    musicOff.destroy();
+                    musicOn = game.add.button(1250, 40, 'musicOn', actionOnClick, this);
+                    musicOn.alpha = 0.85;
+                    musicOn.onInputOver.add(over, this);
+                    musicOn.onInputOut.add(out, this);
+                }
             }
 
             // Set notes as draggable
             wholeNote = game.add.sprite(60, 160, 'wholeNote');
             wholeNote.inputEnabled = 'true';
             wholeNote.input.enableDrag(true);
-            wholeNote.events.onDragStart.add(dragStart);
-            wholeNote.events.onDragStop.add(dragStop);
             wholeNote.events.onInputDown.add(inputDown);
+            wholeNote.events.onInputUp.add(inputUp);
 
             halfNote = game.add.sprite(64, 263, 'halfNote');
             halfNote.inputEnabled = 'true';
             halfNote.input.enableDrag(true);
-            halfNote.events.onDragStart.add(dragStart);
-            halfNote.events.onDragStop.add(dragStop);
             halfNote.events.onInputDown.add(inputDown);
+            halfNote.events.onInputUp.add(inputUp);
 
             quarterNote = game.add.sprite(60, 425, 'quarterNote');
             quarterNote.inputEnabled = 'true';
             quarterNote.input.enableDrag(true);
-            quarterNote.events.onDragStart.add(dragStart);
-            quarterNote.events.onDragStop.add(dragStop);
             quarterNote.events.onInputDown.add(inputDown);
-
-            //Change note opacity on drag
-            function dragStart(event) {
-                console.log(event.key);
-                window[event.key].alpha = 0.7;
-            }
-            function dragStop(event) {
-                window[event.key].alpha = 1;
-            }
+            quarterNote.events.onInputUp.add(inputUp);
 
             //Populate new note on click
             var count = 0;
@@ -129,18 +130,24 @@
                 }
                 eval(event.key + count).inputEnabled = 'true';
                 eval(event.key + count).input.enableDrag(true);
-                eval(event.key + count).events.onDragStart.add(dragStart);
-                eval(event.key + count).events.onDragStop.add(dragStop);
                 eval(event.key + count).events.onInputDown.add(inputDown);
+                eval(event.key + count).events.onInputUp.add(inputUp);
+            }
+            function inputUp(event) {
+                // if (event.position.y > ) {
+                    // music = game.add.audio('audio-name');
+                    // music.volume = volume;
+                    // music.play();
+                // }
             }
 
             //Instantiate slider
             slickUI.add(panel = new SlickUI.Element.Panel(370, 570, 722, 70));
             panel.add(slider = new SlickUI.Element.Slider(33, 90, panel.width - 68));
-            
+
             //Set slider actions
             slider.onDragStop.add(function (value) {
-                console.log('Stop dragging at ' + Math.round(value * 100) + '%');
+                volume = Math.round(value);
             });
         }
     </script>

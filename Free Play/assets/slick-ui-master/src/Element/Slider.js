@@ -60,8 +60,7 @@ SlickUI.Element.Slider.prototype.init = function() {
     if(this._vertical) {
         size = Math.min(this.container.height - this._y, this._size);
     }
-    var initialPosition = Math.min(1,Math.max(0,this._value)) * size + position;
-
+    var initialPosition = Math.min(1,Math.max(0,this._value)) * (size/2) + position;
     var renderedSprites = this.container.root.getRenderer('slider').render(size, this._vertical);
     var sprite_base = renderedSprites[0];
     var handle_off = renderedSprites[1];
