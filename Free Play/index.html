@@ -125,58 +125,37 @@
             var quarterCount = 0;
             function inputDown(event) {
                 if (event.key == 'wholeNote') {
-                    if (wholeCount == 0) {
-                        window[event.key + wholeCount] = game.add.sprite(57, 192, "wholeNote");
-                        window[event.key + wholeCount].scale.setTo(volume + 0.5);
-                        window[event.key + wholeCount].inputEnabled = 'true';
-                        window[event.key + wholeCount].input.enableDrag(true);
-                        window[event.key + wholeCount].events.onInputDown.add(inputDown);
-                        window[event.key + wholeCount].events.onInputUp.add(inputUp);
-                    } else {
-                        var string = event.key.replace(/[0-9]/g, '');
-                        window[string + wholeCount] = game.add.sprite(57, 192, "wholeNote");
-                        window[event.key + wholeCount].scale.setTo(volume + 0.5);
-                        window[string + wholeCount].inputEnabled = 'true';
-                        window[string + wholeCount].input.enableDrag(true);
-                        window[string + wholeCount].events.onInputDown.add(inputDown);
-                        window[string + wholeCount].events.onInputUp.add(inputUp);      
+                    var string = event.key.replace(/[0-9]/g, '');
+                    window[string + wholeCount] = game.add.sprite(57, 192, "wholeNote");
+                    if (volume != undefined) {
+                        window[string + wholeCount].scale.setTo(volume + 0.5);
                     }
+                    window[string + wholeCount].inputEnabled = 'true';
+                    window[string + wholeCount].input.enableDrag(true);
+                    window[string + wholeCount].events.onInputDown.add(inputDown);
+                    window[string + wholeCount].events.onInputUp.add(inputUp);
                     wholeCount++;
                 } else if (event.key == 'halfNote') {
-                    if (halfCount == 0) {
-                        window[event.key + halfCount] = game.add.sprite(68, 280, 'halfNote');
-                        window[event.key + halfCount].scale.setTo(volume + 0.5);
-                        window[event.key + halfCount].inputEnabled = 'true';
-                        window[event.key + halfCount].input.enableDrag(true);
-                        window[event.key + halfCount].events.onInputDown.add(inputDown);
-                        window[event.key + halfCount].events.onInputUp.add(inputUp);
-                    } else {
-                        var string = event.key.replace(/[0-9]/g, '');
-                        window[string + halfCount] = game.add.sprite(68, 280, 'halfNote');
-                        window[event.key + halfCount].scale.setTo(volume + 0.5);
-                        window[string + halfCount].inputEnabled = 'true';
-                        window[string + halfCount].input.enableDrag(true);
-                        window[string + halfCount].events.onInputDown.add(inputDown);
-                        window[string + halfCount].events.onInputUp.add(inputUp);      
+                    var string = event.key.replace(/[0-9]/g, '');
+                    window[string + halfCount] = game.add.sprite(68, 280, 'halfNote');
+                    if (volume != undefined) {
+                        window[string + halfCount].scale.setTo(volume + 0.5);
                     }
+                    window[string + halfCount].inputEnabled = 'true';
+                    window[string + halfCount].input.enableDrag(true);
+                    window[string + halfCount].events.onInputDown.add(inputDown);
+                    window[string + halfCount].events.onInputUp.add(inputUp);
                     halfCount++;
                 } else {
-                    if (quarterCount == 0) {
-                        window[event.key + quarterCount] = game.add.sprite(64, 429, 'quarterNote');
-                        window[event.key + quarterCount].scale.setTo(volume + 0.5);
-                        window[event.key + quarterCount].inputEnabled = 'true';
-                        window[event.key + quarterCount].input.enableDrag(true);
-                        window[event.key + quarterCount].events.onInputDown.add(inputDown);
-                        window[event.key + quarterCount].events.onInputUp.add(inputUp);
-                    } else {
-                        var string = event.key.replace(/[0-9]/g, '');
-                        window[string + quarterCount] = game.add.sprite(64, 429, 'quarterNote');
-                        window[event.key + quarterCount].scale.setTo(volume + 0.5);
-                        window[string + quarterCount].inputEnabled = 'true';
-                        window[string + quarterCount].input.enableDrag(true);
-                        window[string + quarterCount].events.onInputDown.add(inputDown);
-                        window[string + quarterCount].events.onInputUp.add(inputUp);      
+                    var string = event.key.replace(/[0-9]/g, '');
+                    window[string + quarterCount] = game.add.sprite(64, 429, 'quarterNote');
+                    if (volume != undefined) {
+                        window[string + quarterCount].scale.setTo(volume + 0.5);
                     }
+                    window[string + quarterCount].inputEnabled = 'true';
+                    window[string + quarterCount].input.enableDrag(true);
+                    window[string + quarterCount].events.onInputDown.add(inputDown);
+                    window[string + quarterCount].events.onInputUp.add(inputUp);      
                     quarterCount++;
                 }
             }
@@ -210,7 +189,6 @@
             slider.onDrag.add(function (value) {
                 if (wholeCount > 0) {
                     eval('wholeNote' + (wholeCount - 1)).scale.setTo(value + 0.5);
-                    console.log('whole count not 0');
                 } else {
                     wholeNote.scale.setTo(value + 0.5);
                 }
