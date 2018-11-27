@@ -1,4 +1,4 @@
-Design Review II Prototype using Phaser framework
+High-fidelity Prototype using Phaser framework
 
 ### To view the prototype
 
