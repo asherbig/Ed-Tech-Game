@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <script src="lib/phaser.js"></script>
+    <script src='lib/phaser-2.js'></script>
+    <script src='assets/slick-ui-master/dist/slick-ui.min.js'></script>
+    <script src='assets/slick-ui-master/src/Element/Slider.js'></script>
     <style>
         body {
             padding: 0;
@@ -11,8 +13,6 @@
         #canvas {
             margin-left: auto;
             margin-right: auto;
-            margin-top: auto;
-            margin-bottom: auto;
             width: 1366px;
             height: 768px;
         }
@@ -23,152 +23,243 @@
 
 </div>
     <script>
-        var config = {
-            type: Phaser.AUTO,
-            width: 1366,
-            height: 768,
-            parent: "canvas",
-            scene: {
-                preload: preload,
-                create: create
-            }
-        };
-
-        var game = new Phaser.Game(config);
+        var game = new Phaser.Game(1366, 768, Phaser.AUTO, 'canvas', { preload: preload, create: create });
 
         function preload () {
+            game.load.image('homeBtn', 'icons/home.png');
+            game.load.image('freeplayBtn', 'icons/freeplay.png');
+            game.load.image('playlistBtn', 'icons/playlist.png');
+            game.load.image('musicOn', 'icons/toggle-on.png');
+            game.load.image('musicOff', 'icons/toggle-off.png');
+            game.load.image('continueBtn', 'icons/continue.png');
+            game.load.image('freeplayBG', 'images/freeplay-BG.png');
+            game.load.image('slider', 'images/slider-base.png');
+            game.load.image('wholeNote', 'images/drag-wholenote.png');
+            game.load.image('halfNote', 'images/drag-halfnote.png');
+            game.load.image('quarterNote', 'images/drag-quarternote.png');
+            game.load.image('shortA', 'images/short-a.png');
+            game.load.image('longA', 'images/long-a.png');
+            game.load.image('selectorLeft', 'images/selector-left.png');
+            game.load.image('selectorRight', 'images/selector-right.png');
+            game.load.audio('longTone1', 'audio/long-tone1.mp3');
+            game.load.audio('longTone2', 'audio/long-tone2.mp3');
+            game.load.audio('longTone3', 'audio/long-tone3.mp3');
+            game.load.audio('longTone4', 'audio/long-tone4.mp3');
+            game.load.audio('longTone5', 'audio/long-tone5.mp3');
+            game.load.audio('shortTone1', 'audio/short-tone1.mp3');
+            game.load.audio('shortTone2', 'audio/short-tone2.mp3');
+            game.load.audio('shortTone3', 'audio/short-tone3.mp3');
+            game.load.audio('shortTone4', 'audio/short-tone4.mp3');
+            game.load.audio('shortTone5', 'audio/short-tone5.mp3');
 
-            this.load.image('home', 'icons/home.png');
-            this.load.image('freeplay', 'icons/freeplay.png');
-            this.load.image('playlist', 'icons/playlist.png');
-            this.load.image('musicOn', 'icons/toggle-on.png');
-            this.load.image('musicOff', 'icons/toggle-off.png');
-            this.load.image('continue', 'icons/continue.png');
-            this.load.image('freeplayBG', 'images/freeplay-BG.png');
-            this.load.image('slider', 'images/slider.png');
-            this.load.image('wholeNote', 'images/drag-wholenote.png');
-            this.load.image('halfNote', 'images/drag-halfnote.png');
-            this.load.image('quarterNote', 'images/drag-quarternote.png');
+            slickUI = game.plugins.add(Phaser.Plugin.SlickUI);
+            slickUI.load('assets/slick-ui-master/themes/custom-theme/custom.json');
         }
+        var homeBtn, freeplayBtn, playlistBtn, musicOn, musicOff, continueBtn, wholeNote, panel, slider, volume, longA, shortA;
 
         function create() {
-            //Set background
-            this.add.image(685, 384, 'freeplayBG');
-            this.add.image(730, 675, 'slider');
+            //Add background and slider base
+            game.add.image(0, -1, 'freeplayBG');
+            game.add.image(370, 646, 'slider');
 
-            //Home button
-            this.homeBtn = this.add.sprite(90, 70, 'home').setInteractive();
-            this.homeBtn.alpha = 0.85;
-            this.homeBtn.on('pointerover', function (event) {
-            this.alpha = 1;
+            //Instantiate buttons
+            homeBtn = game.add.button(48, 30, 'homeBtn', actionOnClick, this);
+            homeBtn.alpha = 0.85;
+            homeBtn.onInputOver.add(over, this);
+            homeBtn.onInputOut.add(out, this);
+
+            freeplayBtn = game.add.button(123, 30, 'freeplayBtn', actionOnClick, this);
+            freeplayBtn.alpha = 0.85;
+            freeplayBtn.onInputOver.add(over, this);
+            freeplayBtn.onInputOut.add(out, this);
+
+            playlistBtn = game.add.button(198, 30, 'playlistBtn', actionOnClick, this);
+            playlistBtn.alpha = 0.85;
+            playlistBtn.onInputOver.add(over, this);
+            playlistBtn.onInputOut.add(out, this);
+
+            musicOn = game.add.button(1250, 40, 'musicOn', actionOnClick, this);
+            musicOn.alpha = 0.85;
+            musicOn.onInputOver.add(over, this);
+            musicOn.onInputOut.add(out, this);
+
+            continueBtn = game.add.button(1179, 587, 'continueBtn', actionOnClick, this);
+            continueBtn.alpha = 0.85;
+            continueBtn.onInputOver.add(over, this);
+            continueBtn.onInputOut.add(out, this);
+
+            //Add phoneme selector
+            var isLong = true;
+            phoneme = game.add.image(530, 518, 'longA');
+            selectorLeft = game.add.button(480, 550, 'selectorLeft', actionOnClick, this);
+            selectorLeft.alpha = 0.85;
+            selectorLeft.onInputOver.add(over, this);
+            selectorLeft.onInputOut.add(out, this);
+            
+            selectorRight = game.add.button(615, 550, 'selectorRight', actionOnClick, this);
+            selectorLeft.alpha = 0.85;
+            selectorLeft.onInputOver.add(over, this);
+            selectorLeft.onInputOut.add(out, this);
+
+
+            //Set button hover and click actions
+            function over(event) {
+                window[event.key].alpha = 1;
                 document.body.style.cursor = "pointer";
-            });
-            this.homeBtn.on('pointerout', function (event) {
-            this.alpha = 0.85;
+            }
+            function out(event) {
+                window[event.key].alpha = 0.85;
                 document.body.style.cursor = "default";
+            }
+            function actionOnClick(event) {
+                if (event.key == 'musicOn') {
+                    musicOn.destroy();
+                    musicOff = game.add.button(1250, 40, 'musicOff', actionOnClick, this);
+                    musicOff.alpha = 0.85;
+                    musicOff.onInputOver.add(over, this);
+                    musicOff.onInputOut.add(out, this);
+                } else if (event.key == 'musicOff') {
+                    musicOff.destroy();
+                    musicOn = game.add.button(1250, 40, 'musicOn', actionOnClick, this);
+                    musicOn.alpha = 0.85;
+                    musicOn.onInputOver.add(over, this);
+                    musicOn.onInputOut.add(out, this);
+                } else if (event.key == 'selectorRight' || event.key == 'selectorLeft') {
+                    if (isLong) {
+                        phoneme.destroy()
+                        phoneme = game.add.image(530, 518, 'shortA');
+                        isLong = false;
+                    } else {
+                        phoneme.destroy();
+                        phoneme = game.add.image(530, 518, 'longA');
+                        isLong = true;
+                    }
+                }
+            }
+
+            // Set notes as draggable
+            wholeNote = game.add.sprite(57, 162, 'wholeNote');
+            wholeNote.inputEnabled = 'true';
+            wholeNote.input.enableDrag(true);
+            wholeNote.events.onInputDown.add(inputDown);
+            wholeNote.events.onInputUp.add(inputUp);
+
+            halfNote = game.add.sprite(68, 250, 'halfNote');
+            halfNote.inputEnabled = 'true';
+            halfNote.input.enableDrag(true);
+            halfNote.events.onInputDown.add(inputDown);
+            halfNote.events.onInputUp.add(inputUp);
+
+            quarterNote = game.add.sprite(64, 399, 'quarterNote');
+            quarterNote.inputEnabled = 'true';
+            quarterNote.input.enableDrag(true);
+            quarterNote.events.onInputDown.add(inputDown);
+            quarterNote.events.onInputUp.add(inputUp);
+
+            //Populate new note on click
+            var wholeCount = 0;
+            var halfCount = 0;
+            var quarterCount = 0;
+            function inputDown(event) {
+                if (event.key == 'wholeNote') {
+                    var string = event.key.replace(/[0-9]/g, '');
+                    window[string + wholeCount] = game.add.sprite(57, 162, "wholeNote");
+                    if (volume != undefined) {
+                        window[string + wholeCount].scale.setTo(volume + 0.5);
+                    }
+                    window[string + wholeCount].inputEnabled = 'true';
+                    window[string + wholeCount].input.enableDrag(true);
+                    window[string + wholeCount].events.onInputDown.add(inputDown);
+                    window[string + wholeCount].events.onInputUp.add(inputUp);
+                    wholeCount++;
+                } else if (event.key == 'halfNote') {
+                    var string = event.key.replace(/[0-9]/g, '');
+                    window[string + halfCount] = game.add.sprite(68, 250, 'halfNote');
+                    if (volume != undefined) {
+                        window[string + halfCount].scale.setTo(volume + 0.5);
+                    }
+                    window[string + halfCount].inputEnabled = 'true';
+                    window[string + halfCount].input.enableDrag(true);
+                    window[string + halfCount].events.onInputDown.add(inputDown);
+                    window[string + halfCount].events.onInputUp.add(inputUp);
+                    halfCount++;
+                } else {
+                    var string = event.key.replace(/[0-9]/g, '');
+                    window[string + quarterCount] = game.add.sprite(64, 399, 'quarterNote');
+                    if (volume != undefined) {
+                        window[string + quarterCount].scale.setTo(volume + 0.5);
+                    }
+                    window[string + quarterCount].inputEnabled = 'true';
+                    window[string + quarterCount].input.enableDrag(true);
+                    window[string + quarterCount].events.onInputDown.add(inputDown);
+                    window[string + quarterCount].events.onInputUp.add(inputUp);      
+                    quarterCount++;
+                }
+            }
+            function inputUp(event) {
+                if (event.position.y < 100) {
+                    if (isLong) {
+                        music = game.add.audio('longTone5');
+                    } else {
+                        music = game.add.audio('shortTone5');
+                    }
+                } else if (event.position.y > 100 && event.position.y < 200) {
+                    if (isLong) {
+                        music = game.add.audio('longTone4');
+                    } else {
+                        music = game.add.audio('shortTone4');
+                    }
+                } else if (event.position.y > 200 && event.position.y < 300) {
+                    if (isLong) {
+                        music = game.add.audio('longTone3');
+                    } else {
+                        music = game.add.audio('shortTone3');
+                    }
+                } else if (event.position.y > 300 && event.position.y < 400) {
+                    if (isLong) {
+                        music = game.add.audio('longTone2');
+                    } else {
+                        music = game.add.audio('shortTone2');
+                    }
+                } else {
+                    if (isLong) {
+                        music = game.add.audio('longTone1');
+                    } else {
+                        music = game.add.audio('shortTone1');
+                    }
+                }
+                music.volume = (volume == undefined) ? 0.5 : volume;
+                music.play();
+            }
+
+            //Instantiate slider
+            slickUI.add(panel = new SlickUI.Element.Panel(370, 570, 722, 70));
+            panel.add(slider = new SlickUI.Element.Slider(33, 90, panel.width - 68));
+
+            //Set slider actions
+            slider.onDrag.add(function (value) {
+                if (wholeCount > 0) {
+                    eval('wholeNote' + (wholeCount - 1)).scale.setTo(value + 0.5);
+                } else {
+                    wholeNote.scale.setTo(value + 0.5);
+                }
+                if (halfCount > 0) {
+                    eval('halfNote' + (halfCount - 1)).scale.setTo(value + 0.5);
+                } else {
+                    halfNote.scale.setTo(value + 0.5);
+                }
+                if (quarterCount > 0) {
+                    eval('quarterNote' + (quarterCount - 1)).scale.setTo(value + 0.5);
+                } else {
+                    quarterNote.scale.setTo(value + 0.5);
+                }
             });
 
-            //Freeplay Button
-            this.freeplayBtn = this.add.sprite(165, 70, 'freeplay').setInteractive();
-            this.freeplayBtn.alpha = 0.85;
-            this.freeplayBtn.on('pointerover', function (event) {
-            this.alpha = 1;
-                document.body.style.cursor = "pointer";
-            });
-            this.freeplayBtn.on('pointerout', function (event) {
-            this.alpha = 0.85;
-                document.body.style.cursor = "default";
-            });
-
-            //Playlist button
-            this.playlistBtn = this.add.sprite(240, 70, 'playlist').setInteractive();
-            this.playlistBtn.alpha = 0.85;
-            this.playlistBtn.on('pointerover', function (event) {
-            this.alpha = 1;
-                document.body.style.cursor = "pointer";
-            });
-            this.playlistBtn.on('pointerout', function (event) {
-            this.alpha = 0.85;
-                document.body.style.cursor = "default";
-            });
-
-            //Toggle music button 
-            this.MusicBtn = this.add.sprite(1280, 70, 'musicOn').setInteractive();
-            this.MusicBtn.alpha = 0.85;
-            this.MusicBtn.on('pointerover', function (event) {
-            this.alpha = 1;
-                document.body.style.cursor = "pointer";
-            });
-            this.MusicBtn.on('pointerout', function (event) {
-            this.alpha = 0.85;
-                document.body.style.cursor = "default";
-            });
-            this.MusicBtn.on('pointerdown', function (event) {
-                // this.MusicBtn = this.add.sprite(1280, 70, 'musicOff').setInteractive();
-                // this.MusicBtn.alpha = 0.85;
-                // this.MusicBtn.on('pointerover', function (event) { this.alpha = 1;
-                //     document.body.style.cursor = "pointer";
-                // });
-                // this.MusicBtn.on('pointerout', function (event) { this.alpha = 0.85;
-                //     document.body.style.cursor = "default"; 
-                // });
-                // this.MusicBtn.setTexture(this.MusicBtn, 'musicOff', 0);
-            });
-
-            //Continue button
-            this.continueBtn = this.add.sprite(1260, 665, 'continue').setInteractive();
-            this.continueBtn.alpha = 0.85;
-            this.continueBtn.on('pointerover', function (event) {
-            this.alpha = 1;
-                document.body.style.cursor = "pointer";
-            });
-            this.continueBtn.on('pointerout', function (event) {
-            this.alpha = 0.85;
-                document.body.style.cursor = "default";
-            });
-
-            //Set notes as draggable
-            var wholeNote = this.add.sprite(108, 230, 'wholeNote').setInteractive();
-            this.input.setDraggable(wholeNote);
-            this.input.dragDistanceThreshold = 16;
-            this.input.on('dragstart', function (pointer, gameObject) {
-                console.log(gameObject);
-                gameObject.setTint(0xff0000);
-            });
-            this.input.on('drag', function (pointer, gameObject, dragX, dragY) {
-                gameObject.x = dragX;
-                gameObject.y = dragY;
-            });
-            this.input.on('dragend', function (pointer, gameObject) {
-                gameObject.clearTint();
-            });
-
-            var halfNote = this.add.sprite(108, 345, 'halfNote').setInteractive();
-            this.input.setDraggable(halfNote);
-            this.input.dragDistanceThreshold = 16;
-            this.input.on('dragstart', function (pointer, gameObject) {
-                gameObject.setTint(0xff0000);
-            });
-            this.input.on('drag', function (pointer, gameObject, dragX, dragY) {
-                gameObject.x = dragX;
-                gameObject.y = dragY;
-            });
-            this.input.on('dragend', function (pointer, gameObject) {
-                gameObject.clearTint();
-            });
-
-            var quarterNote = this.add.sprite(108, 495, 'quarterNote').setInteractive();
-            this.input.setDraggable(quarterNote);
-            this.input.dragDistanceThreshold = 16;
-            this.input.on('dragstart', function (pointer, gameObject) {
-                gameObject.setTint(0xff0000);
-            });
-            this.input.on('drag', function (pointer, gameObject, dragX, dragY) {
-                gameObject.x = dragX;
-                gameObject.y = dragY;
-            });
-            this.input.on('dragend', function (pointer, gameObject) {
-                gameObject.clearTint();
+            slider.onDragStop.add(function (value) {
+                if (value == 0) {
+                    value += 0.01;
+                }
+                volume = value;
             });
         }
     </script>

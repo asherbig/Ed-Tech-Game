@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="lib/phaser-2.js"></script>
+    <style>
+        body {
+            padding: 0;
+            margin: 0;
+
+        }
+        #canvas {
+            margin-left: auto;
+            margin-right: auto;
+            width: 1366px;
+            height: 768px;
+        }
+    </style>
+</head>
+<body>
+<div id="canvas">
+
+</div>
+<script>
+
+
+    var game = new Phaser.Game(1366, 768, Phaser.AUTO, 'Little Shark', { preload: preload,
+        create: create, update: update});
+
+    function preload ()
+    {
+        game.load.image("shark-a","");
+    }
+
+    function create ()
+    {
+    }
+
+    function update()
+    {
+
+    }
+}
+
+    </script>
+
+</body>
+</html>
