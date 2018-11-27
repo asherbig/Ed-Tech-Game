@@ -37,15 +37,28 @@
             game.load.image('wholeNote', 'images/drag-wholenote.png');
             game.load.image('halfNote', 'images/drag-halfnote.png');
             game.load.image('quarterNote', 'images/drag-quarternote.png');
-            // game.load.audio();
+            game.load.image('shortA', 'images/short-a.png');
+            game.load.image('longA', 'images/long-a.png');
+            game.load.image('selectorLeft', 'images/selector-left.png');
+            game.load.image('selectorRight', 'images/selector-right.png');
+            game.load.audio('longTone1', 'audio/long-tone1.mp3');
+            game.load.audio('longTone2', 'audio/long-tone2.mp3');
+            game.load.audio('longTone3', 'audio/long-tone3.mp3');
+            game.load.audio('longTone4', 'audio/long-tone4.mp3');
+            game.load.audio('longTone5', 'audio/long-tone5.mp3');
+            game.load.audio('shortTone1', 'audio/short-tone1.mp3');
+            game.load.audio('shortTone2', 'audio/short-tone2.mp3');
+            game.load.audio('shortTone3', 'audio/short-tone3.mp3');
+            game.load.audio('shortTone4', 'audio/short-tone4.mp3');
+            game.load.audio('shortTone5', 'audio/short-tone5.mp3');
 
             slickUI = game.plugins.add(Phaser.Plugin.SlickUI);
             slickUI.load('assets/slick-ui-master/themes/custom-theme/custom.json');
         }
-        var homeBtn, freeplayBtn, playlistBtn, musicOn, musicOff, continueBtn, wholeNote, panel, slider, volume;
+        var homeBtn, freeplayBtn, playlistBtn, musicOn, musicOff, continueBtn, wholeNote, panel, slider, volume, longA, shortA;
 
         function create() {
-            //Set background
+            //Add background and slider base
             game.add.image(0, -1, 'freeplayBG');
             game.add.image(370, 646, 'slider');
 
@@ -75,6 +88,20 @@
             continueBtn.onInputOver.add(over, this);
             continueBtn.onInputOut.add(out, this);
 
+            //Add phoneme selector
+            var isLong = true;
+            phoneme = game.add.image(530, 518, 'longA');
+            selectorLeft = game.add.button(480, 550, 'selectorLeft', actionOnClick, this);
+            selectorLeft.alpha = 0.85;
+            selectorLeft.onInputOver.add(over, this);
+            selectorLeft.onInputOut.add(out, this);
+            
+            selectorRight = game.add.button(615, 550, 'selectorRight', actionOnClick, this);
+            selectorLeft.alpha = 0.85;
+            selectorLeft.onInputOver.add(over, this);
+            selectorLeft.onInputOut.add(out, this);
+
+
             //Set button hover and click actions
             function over(event) {
                 window[event.key].alpha = 1;
@@ -97,23 +124,33 @@
                     musicOn.alpha = 0.85;
                     musicOn.onInputOver.add(over, this);
                     musicOn.onInputOut.add(out, this);
+                } else if (event.key == 'selectorRight' || event.key == 'selectorLeft') {
+                    if (isLong) {
+                        phoneme.destroy()
+                        phoneme = game.add.image(530, 518, 'shortA');
+                        isLong = false;
+                    } else {
+                        phoneme.destroy();
+                        phoneme = game.add.image(530, 518, 'longA');
+                        isLong = true;
+                    }
                 }
             }
 
             // Set notes as draggable
-            wholeNote = game.add.sprite(57, 192, 'wholeNote');
+            wholeNote = game.add.sprite(57, 162, 'wholeNote');
             wholeNote.inputEnabled = 'true';
             wholeNote.input.enableDrag(true);
             wholeNote.events.onInputDown.add(inputDown);
             wholeNote.events.onInputUp.add(inputUp);
 
-            halfNote = game.add.sprite(68, 280, 'halfNote');
+            halfNote = game.add.sprite(68, 250, 'halfNote');
             halfNote.inputEnabled = 'true';
             halfNote.input.enableDrag(true);
             halfNote.events.onInputDown.add(inputDown);
             halfNote.events.onInputUp.add(inputUp);
 
-            quarterNote = game.add.sprite(64, 429, 'quarterNote');
+            quarterNote = game.add.sprite(64, 399, 'quarterNote');
             quarterNote.inputEnabled = 'true';
             quarterNote.input.enableDrag(true);
             quarterNote.events.onInputDown.add(inputDown);
@@ -126,7 +163,7 @@
             function inputDown(event) {
                 if (event.key == 'wholeNote') {
                     var string = event.key.replace(/[0-9]/g, '');
-                    window[string + wholeCount] = game.add.sprite(57, 192, "wholeNote");
+                    window[string + wholeCount] = game.add.sprite(57, 162, "wholeNote");
                     if (volume != undefined) {
                         window[string + wholeCount].scale.setTo(volume + 0.5);
                     }
@@ -137,7 +174,7 @@
                     wholeCount++;
                 } else if (event.key == 'halfNote') {
                     var string = event.key.replace(/[0-9]/g, '');
-                    window[string + halfCount] = game.add.sprite(68, 280, 'halfNote');
+                    window[string + halfCount] = game.add.sprite(68, 250, 'halfNote');
                     if (volume != undefined) {
                         window[string + halfCount].scale.setTo(volume + 0.5);
                     }
@@ -148,7 +185,7 @@
                     halfCount++;
                 } else {
                     var string = event.key.replace(/[0-9]/g, '');
-                    window[string + quarterCount] = game.add.sprite(64, 429, 'quarterNote');
+                    window[string + quarterCount] = game.add.sprite(64, 399, 'quarterNote');
                     if (volume != undefined) {
                         window[string + quarterCount].scale.setTo(volume + 0.5);
                     }
@@ -160,25 +197,39 @@
                 }
             }
             function inputUp(event) {
-                // if (event.key == 'wholeNote') {
-                    // if (event.position.y > ) {
-                    //     music = game.add.audio('audio-name');
-                    //     music.volume = (typeof volume == undefined) ? 0.5 : volume;
-                    //     music.play();
-                    // }
-                // } else if (event.key == 'halfNote') {
-                    // if (event.position.y > ) {
-                    //     music = game.add.audio('audio-name');
-                    //     music.volume = (typeof volume == undefined) ? 0.5 : volume;
-                    //     music.play();
-                    // }
-                // } else {
-                    // if (event.position.y > ) {
-                    //     music = game.add.audio('audio-name');
-                    //     music.volume = (typeof volume == undefined) ? 0.5 : volume;
-                    //     music.play();
-                    // }
-                // }
+                if (event.position.y < 100) {
+                    if (isLong) {
+                        music = game.add.audio('longTone5');
+                    } else {
+                        music = game.add.audio('shortTone5');
+                    }
+                } else if (event.position.y > 100 && event.position.y < 200) {
+                    if (isLong) {
+                        music = game.add.audio('longTone4');
+                    } else {
+                        music = game.add.audio('shortTone4');
+                    }
+                } else if (event.position.y > 200 && event.position.y < 300) {
+                    if (isLong) {
+                        music = game.add.audio('longTone3');
+                    } else {
+                        music = game.add.audio('shortTone3');
+                    }
+                } else if (event.position.y > 300 && event.position.y < 400) {
+                    if (isLong) {
+                        music = game.add.audio('longTone2');
+                    } else {
+                        music = game.add.audio('shortTone2');
+                    }
+                } else {
+                    if (isLong) {
+                        music = game.add.audio('longTone1');
+                    } else {
+                        music = game.add.audio('shortTone1');
+                    }
+                }
+                music.volume = (volume == undefined) ? 0.5 : volume;
+                music.play();
             }
 
             //Instantiate slider
