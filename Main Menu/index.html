@@ -2,6 +2,10 @@
 <html>
 <head>
     <script src="lib/phaser-2.js"></script>
+     <script src="js/main-menu.js"></script>
+     <script src="js/free-play.js"></script>
+    <script src='assets/slick-ui-master/dist/slick-ui.min.js'></script>
+    <script src='assets/slick-ui-master/src/Element/Slider.js'></script>
     <style>
         body {
             padding: 0;
@@ -20,100 +24,17 @@
 <div id="canvas">
 
 </div>
-    <script>
+    <script type="text/javascript">
+    
+   
  
 
-    var game = new Phaser.Game(1366, 768, Phaser.AUTO, 'canvas', { preload: preload, create: create });
+    var game = new Phaser.Game(1366, 768, Phaser.AUTO, 'canvas');
+        
+     game.state.add('mainMenu', DoMi.mainMenu);
+      game.state.add('freePlay', DoMi.freePlay);
+     game.state.start('mainMenu')
 
-    function preload ()
-    {
-        game.load.image('logo', "images/Title.png");
-        game.load.image('storyMode', 'images/button1.png');
-        game.load.image('freePlay', 'images/button2.png');
-        game.load.image('playlist', 'images/button3.png');
-         game.load.image('musicOn', 'images/toggle-on.png');
-        game.load.image('musicOff', 'images/toggle-off.png');
-        game.load.image('menuBG', 'images/Menu-BG.jpg');
-    }
-
-    var Btn1, Btn2, Btn3;
-        
-    function create ()
-    {
-        game.add.image(0, -100, 'menuBG');
-        game.add.image(250, 60, "logo");
-
-    Btn1 = game.add.button(66, 360, 'storyMode', actionOnClick1, this);
-        
-    Btn1.alpha = .85   
-    Btn1.onInputOver.add(over1, this);
-    Btn1.onInputOut.add(out1, this);
-   
-        function over1() {
-        Btn1.alpha = 1;
-        document.body.style.cursor = "pointer";
-        }
-        
-        function out1() {
-        Btn1.alpha = 0.85;
-        document.body.style.cursor = "default";
-        }
-        
-        function actionOnClick1() {
-            console.log("click")
-        }
-        
-    Btn2 = game.add.button(466, 360, 'freePlay', actionOnClick2, this);
-    
-    Btn2.alpha = .85 
-    Btn2.onInputOver.add(over2, this);
-    Btn2.onInputOut.add(out2, this);
-   
-        function over2() {
-        Btn2.alpha = 1;
-        document.body.style.cursor = "pointer";
-        }
-        
-        function out2() {
-        Btn2.alpha = 0.85;
-        document.body.style.cursor = "default";
-        }
-        
-        function actionOnClick2() {
-            console.log("click")
-        }
-        
-        Btn3 = game.add.button(866, 360, 'playlist', actionOnClick3, this);
-    
-    Btn3.alpha = .85 
-    Btn3.onInputOver.add(over3, this);
-    Btn3.onInputOut.add(out3, this);
-   
-        function over3() {
-        Btn3.alpha = 1;
-        document.body.style.cursor = "pointer";
-        }
-        
-        function out3() {
-        Btn3.alpha = 0.85;
-        document.body.style.cursor = "default";
-        }
-        
-         function actionOnClick3() {
-            console.log("click")
-        }
-   
-
-
-// this.MusicBtn = this.add.sprite(1280, 70, 'musicOn').setInteractive();
-   // this.MusicBtn.alpha = 0.85;
-   // this.MusicBtn.on('pointerover', function (event) { this.alpha = 1;
-   //     document.body.style.cursor = "pointer";
-   //  });
-   // this.MusicBtn.on('pointerout', function (event) { this.alpha = 0.85;
-   //  document.body.style.cursor = "default"; });
-    //this.Btn1.on('pointerdown', musicOff); 
-}
 
     </script>
 
