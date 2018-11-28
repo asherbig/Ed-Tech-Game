@@ -1,0 +1,35 @@
+{
+  "name": "custom",
+  "images": {
+    "check_on": "images/boxCheckmark.png",
+    "cross_on": "images/boxCross.png",
+    "radio_on": "images/boxTick.png",
+    "check_off": "images/box.png",
+    "cross_off": "images/box.png",
+    "radio_off": "images/circle.png",
+    "button_on": "images/buttonOn.png",
+    "button_off": "images/buttonOff.png",
+    "text_field": "images/textfield.png",
+    "slider_end": "images/sliderEnd.png",
+    "slider_base": "images/sliderBase.png",
+    "slider_handle_off": "images/sliderHandle.png",
+    "slider_handle_on": "images/sliderHandle.png",
+    "panel": "images/panel.png"
+  },
+  "fonts": {
+    "minecraftia": ["fonts/minecraftia-black.png", "fonts/minecraftia.xml"]
+  },
+  "button": {
+    "border-x": 8,
+    "border-y": 8
+  },
+  "text_field": {
+    "border-x": 8,
+    "border-y": 8
+  },
+  "panel": {
+    "border-x": 10,
+    "border-y": 10
+  }
+}
+
