@@ -2,7 +2,9 @@ High-fidelity Prototype using Phaser framework
 
 ### To view the prototype
 
-First, install `python` if you do not have it installed already
+First, [download and install the latest version of Python](https://www.python.org/downloads/) if you do not have it installed already
+
+Or you can use homebrew to install
 ```sh
 $ brew install python3
 ```
