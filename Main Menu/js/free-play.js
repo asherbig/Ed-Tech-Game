@@ -7,7 +7,7 @@ DoMi.storyMode.prototype = {
 
     preload: function () {
         game.load.image('homeBtn', 'icons/home.png');
-        game.load.image('storyBtn', 'icons/story.png');
+        game.load.image('freeplayBtn', 'icons/freeplay.png');
         game.load.image('playlistBtn', 'icons/playlist.png');
         game.load.image('musicOn', 'icons/toggle-on.png');
         game.load.image('musicOff', 'icons/toggle-off.png');
@@ -53,11 +53,11 @@ DoMi.storyMode.prototype = {
         homeBtn.onInputOut.add(out, this);
         frontLayer.add(homeBtn);
 
-        storyBtn = game.add.button(123, 30, 'storyBtn', actionOnClick2, this);
-        storyBtn.alpha = 0.85;
-        storyBtn.onInputOver.add(over, this);
-        storyBtn.onInputOut.add(out, this);
-        frontLayer.add(storyBtn);
+        freeplayBtn = game.add.button(123, 30, 'freeplayBtn', actionOnClick2, this);
+        freeplayBtn.alpha = 0.85;
+        freeplayBtn.onInputOver.add(over, this);
+        freeplayBtn.onInputOut.add(out, this);
+        frontLayer.add(freeplayBtn);
 
         playlistBtn = game.add.button(198, 30, 'playlistBtn', actionOnClick3, this);
         playlistBtn.alpha = 0.85;
@@ -118,8 +118,7 @@ DoMi.storyMode.prototype = {
         }
 
         function actionOnClick2() {
-        
-
+            game.state.start('freePlay');
         }
 
         function actionOnClick3() {
@@ -304,7 +303,6 @@ DoMi.freePlay.prototype = {
         game.load.image('playlistBtn', 'icons/playlist.png');
         game.load.image('musicOn', 'icons/toggle-on.png');
         game.load.image('musicOff', 'icons/toggle-off.png');
-        game.load.image('continueBtn', 'icons/continue.png');
         game.load.image('freeplayBG', 'images/free-play/freeplay-BG.png');
         game.load.image('slider', 'images/free-play/slider-base.png');
         game.load.image('wholeNote', 'images/free-play/wholenote-friend.png');
@@ -372,12 +370,6 @@ DoMi.freePlay.prototype = {
             frontLayer.add(musicOff);
         }
 
-        continueBtn = game.add.button(1179, 587, 'continueBtn', actionOnClick5, this);
-        continueBtn.alpha = 0.85;
-        continueBtn.onInputOver.add(over, this);
-        continueBtn.onInputOut.add(out, this);
-        frontLayer.add(continueBtn);
-
         //Add phoneme selector
         var isLong = true;
         phoneme = game.add.image(530, 518, 'longA');
@@ -411,8 +403,7 @@ DoMi.freePlay.prototype = {
         }
 
         function actionOnClick2() {
-        
-
+            game.state.start('story-mode-freePlay');
         }
 
         function actionOnClick3() {
@@ -445,10 +436,6 @@ DoMi.freePlay.prototype = {
                     isLong = true;
                 }
             }
-        }
-
-        function actionOnClick5() {
-            game.state.start("song");
         }
 
         // Set notes as draggable
