@@ -7,7 +7,7 @@ DoMi.freePlay.prototype = {
 
     preload: function () {
         game.load.image('homeBtn', 'icons/home.png');
-        game.load.image('freeplayBtn', 'icons/freeplay.png');
+        game.load.image('storyBtn', 'icons/story.png');
         game.load.image('playlistBtn', 'icons/playlist.png');
         game.load.image('musicOn', 'icons/toggle-on.png');
         game.load.image('musicOff', 'icons/toggle-off.png');
@@ -40,7 +40,6 @@ DoMi.freePlay.prototype = {
     create: function () {
         //Add background and slider base
         game.add.image(0, -1, 'freeplayBG');
-        game.add.image(370, 646, 'slider');
 
         //Instantiate buttons
         homeBtn = game.add.button(48, 30, 'homeBtn', actionOnClick1, this);
@@ -48,10 +47,10 @@ DoMi.freePlay.prototype = {
         homeBtn.onInputOver.add(over, this);
         homeBtn.onInputOut.add(out, this);
 
-        freeplayBtn = game.add.button(123, 30, 'freeplayBtn', actionOnClick2, this);
-        freeplayBtn.alpha = 0.85;
-        freeplayBtn.onInputOver.add(over, this);
-        freeplayBtn.onInputOut.add(out, this);
+        storyBtn = game.add.button(123, 30, 'storyBtn', actionOnClick2, this);
+        storyBtn.alpha = 0.85;
+        storyBtn.onInputOver.add(over, this);
+        storyBtn.onInputOut.add(out, this);
 
         playlistBtn = game.add.button(198, 30, 'playlistBtn', actionOnClick3, this);
         playlistBtn.alpha = 0.85;
@@ -79,9 +78,9 @@ DoMi.freePlay.prototype = {
         selectorLeft.onInputOut.add(out, this);
 
         selectorRight = game.add.button(615, 550, 'selectorRight', actionOnClick4, this);
-        selectorLeft.alpha = 0.85;
-        selectorLeft.onInputOver.add(over, this);
-        selectorLeft.onInputOut.add(out, this);
+        selectorRight.alpha = 0.85;
+        selectorRight.onInputOver.add(over, this);
+        selectorRight.onInputOut.add(out, this);
 
 
         //Set button hover and click actions
@@ -134,10 +133,6 @@ DoMi.freePlay.prototype = {
                     isLong = true;
                 }
             }
-        }
-
-        function actionOnClick5() {
-
         }
 
         // Set notes as draggable
@@ -238,6 +233,7 @@ DoMi.freePlay.prototype = {
         }
 
         //Instantiate slider
+        game.add.image(370, 646, 'slider');
         slickUI.add(panel = new SlickUI.Element.Panel(370, 570, 722, 70));
         panel.add(slider = new SlickUI.Element.Slider(33, 90, panel.width - 68));
 
@@ -267,6 +263,15 @@ DoMi.freePlay.prototype = {
             volume = value;
         });
 
+        //Bring elements aside from music notes to top
+        game.world.bringToTop(selectorLeft);
+        game.world.bringToTop(selectorRight);
+        game.world.bringToTop(phoneme);
+        game.world.bringToTop(homeBtn);
+        game.world.bringToTop(storyBtn);
+        game.world.bringToTop(playlistBtn);
+        game.world.bringToTop(musicOn);
+        game.world.bringToTop(musicOff);
     }
 
 }
