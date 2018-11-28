@@ -126,7 +126,6 @@ DoMi.song.prototype = {
                 pauseBtn.alpha = 0.85;
                 pauseBtn.onInputOver.add(over, this);
                 pauseBtn.onInputOut.add(out, this);
-                BGM.pause();
                 if (music.isPlaying === true) {
                     music.resume();
                 } else {
@@ -138,11 +137,10 @@ DoMi.song.prototype = {
                 playBtn.alpha = 0.85;
                 playBtn.onInputOver.add(over, this);
                 playBtn.onInputOut.add(out, this);
-                BGM.resume();
                 music.pause();
             }
             music.onStop.addOnce(function() {
-                BGM.resume();
+                
             });
         }
 

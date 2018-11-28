@@ -158,7 +158,7 @@ document.body.style.cursor = "default";
 
         function actionOnClick5() {
             document.body.style.cursor = "default";
-            muiscSetting = BGM.isPlaying;
+            musicSetting = BGM.isPlaying;
             game.state.start("song");
         }
 
