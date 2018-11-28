@@ -76,11 +76,19 @@ DoMi.song.prototype = {
 
         function actionOnClick1() {
             document.body.style.cursor = "default";
+            music.stop();
+            if (musicSetting === true) {
+                BGM.play();
+            }
             game.state.start('mainMenu')
         }
 
         function actionOnClick2() {
             document.body.style.cursor = "default";
+            music.stop();
+            if (musicSetting === true) {
+                BGM.play();
+            }
             game.state.start("freePlay");
         }
 
@@ -89,35 +97,7 @@ DoMi.song.prototype = {
 
         }
 
-        function actionOnClick4(event) {
-            document.body.style.cursor = "default";
-            if (event.key == 'musicOn') {
-                musicOn.destroy();
-                musicOff = game.add.button(1250, 40, 'musicOff', actionOnClick4, this);
-                musicOff.alpha = 0.85;
-                musicOff.onInputOver.add(over, this);
-                musicOff.onInputOut.add(out, this);
-                BGM.pause();
-            } else if (event.key == 'musicOff') {
-                musicOff.destroy();
-                musicOn = game.add.button(1250, 40, 'musicOn', actionOnClick4, this);
-                musicOn.alpha = 0.85;
-                musicOn.onInputOver.add(over, this);
-                musicOn.onInputOut.add(out, this);
-                BGM.resume();
-            } else if (event.key == 'selectorRight' || event.key == 'selectorLeft') {
-                if (isLong) {
-                    phoneme.destroy()
-                    phoneme = game.add.image(530, 518, 'shortA');
-                    isLong = false;
-                } else {
-                    phoneme.destroy();
-                    phoneme = game.add.image(530, 518, 'longA');
-                    isLong = true;
-                }
-            }
-        }
-
+        
         function actionOnClick5(event) {
             document.body.style.cursor = "default";
             if (event.key == 'playBtn') {
