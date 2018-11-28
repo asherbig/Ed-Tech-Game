@@ -1,42 +1,45 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <script src="lib/phaser-2.js"></script>
-     <script src="js/main-menu.js"></script>
-     <script src="js/free-play.js"></script>
+    <script src="js/main-menu.js"></script>
+    <script src="js/free-play.js"></script>
+    <script src="js/bubble-pop.js"></script>
     <script src='assets/slick-ui-master/dist/slick-ui.min.js'></script>
     <script src='assets/slick-ui-master/src/Element/Slider.js'></script>
     <style>
         body {
             padding: 0;
             margin: 0;
-       
+
         }
+
         #canvas {
             margin-left: auto;
             margin-right: auto;
             width: 1366px;
             height: 768px;
         }
+
     </style>
 </head>
+
 <body>
-<div id="canvas">
+    <div id="canvas">
 
-</div>
+    </div>
     <script type="text/javascript">
-    
-   
- 
+        var game = new Phaser.Game(1366, 768, Phaser.AUTO, 'canvas');
 
-    var game = new Phaser.Game(1366, 768, Phaser.AUTO, 'canvas');
-        
-     game.state.add('mainMenu', DoMi.mainMenu);
-      game.state.add('freePlay', DoMi.freePlay);
-     game.state.start('mainMenu')
+        game.state.add('mainMenu', DoMi.mainMenu);
+        game.state.add('freePlay', DoMi.freePlay);
+        game.state.add('bubblePop', DoMi.bubblePop);
 
+        game.state.start('mainMenu')
 
     </script>
 
 </body>
+
 </html>

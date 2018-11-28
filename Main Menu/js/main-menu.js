@@ -40,7 +40,7 @@ DoMi.mainMenu.prototype = {
         }
 
         function actionOnClick1() {
-            console.log("click")
+            game.state.start("bubblePop")
         }
 
         Btn2 = game.add.button(466, 360, 'freePlay', actionOnClick2, this);
@@ -87,7 +87,7 @@ DoMi.mainMenu.prototype = {
         BGM = game.add.audio("BGM");
         BGM.loop = true;
         BGM.play();
-        BGM.volume = 0.6;
+        BGM.volume = 0.65;
         bootMusic = false;
         BtnBGM = game.add.button(1250, 40, 'musicOn', actionOnClick4, this);   
         } else if (BGM.isPlaying === true ) {
