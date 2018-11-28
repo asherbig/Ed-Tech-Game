@@ -40,7 +40,7 @@ DoMi.mainMenu.prototype = {
         }
 
         function actionOnClick1() {
-            game.state.start("bubblePop")
+            game.state.start("story-mode-freePlay")
         }
 
         Btn2 = game.add.button(466, 360, 'freePlay', actionOnClick2, this);

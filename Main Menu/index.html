@@ -5,6 +5,7 @@
     <script src="lib/phaser-2.js"></script>
     <script src="js/main-menu.js"></script>
     <script src="js/free-play.js"></script>
+    <script src="js/song.js"></script>
     <script src="js/bubble-pop.js"></script>
     <script src='assets/slick-ui-master/dist/slick-ui.min.js'></script>
     <script src='assets/slick-ui-master/src/Element/Slider.js'></script>
@@ -34,6 +35,8 @@
 
         game.state.add('mainMenu', DoMi.mainMenu);
         game.state.add('freePlay', DoMi.freePlay);
+        game.state.add('story-mode-freePlay', DoMi.storyMode);
+        game.state.add('song', DoMi.song);
         game.state.add('bubblePop', DoMi.bubblePop);
 
         game.state.start('mainMenu')
