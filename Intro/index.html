@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="lib/phaser-2.js"></script>
+    <style>
+        body {
+        padding: 0;
+        margin: 0;
+
+        }
+        #canvas {
+        margin-left: auto;
+        margin-right: auto;
+        width: 1366px;
+        height: 768px;
+        }
+    </style>
+</head>
+<body>
+<div id="canvas">
+
+</div>
+<script>
+
+
+    var game = new Phaser.Game(1366, 768, Phaser.AUTO, 'canvas', { preload: preload, create: create });
+
+    function preload ()
+    {
+        game.load.image('menuBG', 'images/Intro-BG.png');
+        game.load.image('sharkA', 'images/shark-a.png');
+        game.load.image('sharkB', 'images/shark-b.png');
+        game.load.image('sharkC', 'images/shark-c.png');
+        game.load.image('bubble1', 'images/bubble1.png');
+        game.load.image('bubble2', 'images/bubble2.png');
+        game.load.image('bubble3', 'images/bubble3.png');
+
+    }
+
+    var shark;
+    var bubble;
+
+    function create ()
+    {
+        // Background of level
+        game.add.image(0, 0, 'menuBG');
+
+        // Make shark character
+        shark = [ game.add.sprite(0, 0, 'sharkA'),
+            game.add.sprite(0, 0, 'sharkB'),
+            game.add.sprite(0, 0, 'sharkC')];
+
+        shark[2].visible = false;
+        shark[1].visible = false;
+
+        // Make bubble stages
+        bubble = [game.add.sprite(0, 0, 'bubble1'),
+        game.add.sprite(0, 0, 'bubble2'),
+        game.add.sprite(0, 0, 'bubble3')];
+
+        // need to add alex's implementation of dragging
+
+
+        // need to time things for the bubble pop
+    }
+
+    </script>
+
+</body>
+</html>
