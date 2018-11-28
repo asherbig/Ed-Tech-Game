@@ -36,15 +36,30 @@
             game.load.image('continueBtn', 'icons/continue.png');
             game.load.image('freeplayBG', 'images/freeplay-BG.png');
             game.load.image('shark', 'images/nice-shark.png');
-            game.load.image('LA', 'images/long-a.png');
-            game.load.image('SA', 'images/short-a.png');
+            game.load.image('La', 'images/long-a.png');
+            game.load.image('Sa', 'images/short-a.png');
+            // game.load.image('A','images/A.png');
+            // game.load.image('B','images/B.png');
+            // game.load.image('C','images/C.png');
+            // game.load.image('D','images/D.png');
+            // game.load.image('E','images/E.png');
+            // game.load.image('f','images/f.png');
+            // game.load.image('c','images/c.png');
+            // game.load.image('n','images/n.png');
+            // game.load.image('s','images/s.png');
+            // game.load.image('h','images/h.png');
+            // game.load.image('i','images/i.png');
+            // game.load.image('v','images/v.png');
+            // game.load.image('x','images/x.png');
+            // game.load.image('k','images/k.png');
+            // game.load.image('e','images/e.png');
             game.load.spritesheet('bubblePop', 'images/short-pop-sheet.png', 394, 380 );
         }
 
         var homeBtn, freeplayBtn, playlistBtn, musicBtn, continueBtn;
         var shark;
         var bubbles = [];
-        var targetLetter = 'LA';
+        var targetLetter = '';
         var numRight = 0;
         var fuck = [1, 2]
 
@@ -115,7 +130,15 @@
             //     }
             // }
 
-            generate5Bubbles(['LA', 'SA', 'LA', 'SA', 'SA'], "low");
+            //lessons
+            // generate5Bubbles(['A', 'B', 'C', 'D', 'E']);
+            // generate5Bubbles(['La', 'f', 'c', 'n', 's'], "high");
+            // generate5Bubbles(['Sa', 'h', 'i', 'v', 'x']);
+            // generate5Bubbles(['La', 'k', 'n', 'i', 'e']);
+            // generate5Bubbles(['La', 'x', 'E', 'i', 'e'], "low");
+            // generate5Bubbles(['Sa', 'k', 'f', 'n', 'e']);
+
+            generate5Bubbles(['La', 'Sa', 'La', 'Sa', 'Sa'], "low");
             
             //Set shark and make draggable
             shark = game.add.sprite(100, 200, 'shark');
@@ -175,6 +198,7 @@
                 throw "Error: Array length under 5 given to generate5Bubbles!";
                 return;
             }
+            targetLetter = letterArray[0];
             let targY = -1;
             let ys = [];
             if (yHeight === "none") {
@@ -214,6 +238,7 @@
             bubble.myY = y;
             bubble.input.enableDrag(true);
             bubble.letter = letterPicName;
+            //need to change to work with dynamically sized character
             let child = bubble.addChild(game.make.sprite(197 - 70, 190 - 80, letterPicName));
             child.scale.setTo(1 / bScale * cScale);
             game.physics.enable(bubble, Phaser.Physics.ARCADE);
