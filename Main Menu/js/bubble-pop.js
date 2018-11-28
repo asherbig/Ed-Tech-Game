@@ -100,7 +100,8 @@ DoMi.bubblePop.prototype = {
             playlistBtn.onInputOver.add(over, this);
             playlistBtn.onInputOut.add(out, this);
 
-            if (BGM.isPlaying === true) {
+            if (musicSetting === true) {
+                BGM.play();
                 musicOn = game.add.button(1250, 40, 'musicOn', actionOnClick4, this);
                 musicOn.alpha = 0.85;
                 musicOn.onInputOver.add(over, this);

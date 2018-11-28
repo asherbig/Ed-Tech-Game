@@ -40,7 +40,8 @@ DoMi.mainMenu.prototype = {
         }
 
         function actionOnClick1() {
-            game.state.start("story-mode-freePlay")
+            document.body.style.cursor = "default";
+            game.state.start("story-mode-freePlay");
         }
 
         Btn2 = game.add.button(466, 360, 'freePlay', actionOnClick2, this);
@@ -60,6 +61,7 @@ DoMi.mainMenu.prototype = {
         }
 
         function actionOnClick2() {
+            document.body.style.cursor = "default";
             game.state.start('freePlay')
         }
 
@@ -80,7 +82,7 @@ DoMi.mainMenu.prototype = {
         }
 
         function actionOnClick3() {
-            console.log("click")
+            document.body.style.cursor = "default";
         }
 
         if (bootMusic === true) {
@@ -119,6 +121,7 @@ DoMi.mainMenu.prototype = {
         newBtnBGM();
 
         function actionOnClick4() {
+            document.body.style.cursor = "default";
             if (BGM.isPlaying === true) {
                 BtnBGM.destroy();
                 BtnBGM = game.add.button(1250, 40, 'musicOff', actionOnClick4, this);

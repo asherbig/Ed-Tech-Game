@@ -1,7 +1,7 @@
 DoMi.storyMode = function(game) {};
 DoMi.freePlay = function (game) {};
 
-var homeBtn, freeplayBtn, playlistBtn, musicOn, musicOff, continueBtn, wholeNote, panel, slider, sliderBase, volume, longA, shortA;
+var homeBtn, freeplayBtn, playlistBtn, musicOn, musicOff, continueBtn, wholeNote, panel, slider, sliderBase, volume, longA, shortA, musicSetting = true;
 
 DoMi.storyMode.prototype = {
 
@@ -114,18 +114,21 @@ DoMi.storyMode.prototype = {
         }
 
         function actionOnClick1() {
+            document.body.style.cursor = "default";
             game.state.start('mainMenu')
         }
 
         function actionOnClick2() {
+            document.body.style.cursor = "default";
             game.state.start('freePlay');
         }
 
         function actionOnClick3() {
-
+document.body.style.cursor = "default";
         }
 
         function actionOnClick4(event) {
+            document.body.style.cursor = "default";
             if (event.key == 'musicOn') {
                 musicOn.destroy();
                 musicOff = game.add.button(1250, 40, 'musicOff', actionOnClick4, this);
@@ -154,6 +157,8 @@ DoMi.storyMode.prototype = {
         }
 
         function actionOnClick5() {
+            document.body.style.cursor = "default";
+            muiscSetting = BGM.isPlaying;
             game.state.start("song");
         }
 
@@ -399,18 +404,21 @@ DoMi.freePlay.prototype = {
         }
 
         function actionOnClick1() {
+            document.body.style.cursor = "default";
             game.state.start('mainMenu')
         }
 
         function actionOnClick2() {
+            document.body.style.cursor = "default";
             game.state.start('story-mode-freePlay');
         }
 
         function actionOnClick3() {
-
+            document.body.style.cursor = "default";
         }
 
         function actionOnClick4(event) {
+            document.body.style.cursor = "default";
             if (event.key == 'musicOn') {
                 musicOn.destroy();
                 musicOff = game.add.button(1250, 40, 'musicOff', actionOnClick4, this);

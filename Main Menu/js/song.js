@@ -23,6 +23,8 @@ DoMi.song.prototype = {
         game.add.image(0, -1, 'freeplayBG');
         game.add.image(275, 220, 'asongTitle');
         
+        BGM.stop();
+        
         //Add The A Song
         music = game.add.audio('a-song');
 
@@ -42,17 +44,7 @@ DoMi.song.prototype = {
         playlistBtn.onInputOver.add(over, this);
         playlistBtn.onInputOut.add(out, this);
 
-        if (BGM.isPlaying === true) {
-            musicOn = game.add.button(1250, 40, 'musicOn', actionOnClick4, this);
-            musicOn.alpha = 0.85;
-            musicOn.onInputOver.add(over, this);
-            musicOn.onInputOut.add(out, this);
-        } else {
-            musicOff = game.add.button(1250, 40, 'musicOff', actionOnClick4, this);
-            musicOff.alpha = 0.85;
-            musicOff.onInputOver.add(over, this);
-            musicOff.onInputOut.add(out, this); 
-        }
+       
 
         if (music.isPlaying === false) {
             playBtn = game.add.button(540, 330, 'playBtn', actionOnClick5, this);
@@ -60,7 +52,7 @@ DoMi.song.prototype = {
             playBtn.onInputOver.add(over, this);
             playBtn.onInputOut.add(out, this);
         } else {
-            pauseBtn = game.add.button(540, 330, 'playBtn', actionOnClick5, this);
+            pauseBtn = game.add.button(540, 330, 'pauseBtn', actionOnClick5, this);
             pauseBtn.alpha = 0.85;
             pauseBtn.onInputOver.add(over, this);
             pauseBtn.onInputOut.add(out, this);
@@ -83,18 +75,22 @@ DoMi.song.prototype = {
         }
 
         function actionOnClick1() {
+            document.body.style.cursor = "default";
             game.state.start('mainMenu')
         }
 
         function actionOnClick2() {
+            document.body.style.cursor = "default";
             game.state.start("freePlay");
         }
 
         function actionOnClick3() {
+            document.body.style.cursor = "default";
 
         }
 
         function actionOnClick4(event) {
+            document.body.style.cursor = "default";
             if (event.key == 'musicOn') {
                 musicOn.destroy();
                 musicOff = game.add.button(1250, 40, 'musicOff', actionOnClick4, this);
@@ -123,9 +119,10 @@ DoMi.song.prototype = {
         }
 
         function actionOnClick5(event) {
+            document.body.style.cursor = "default";
             if (event.key == 'playBtn') {
                 playBtn.destroy();
-                pauseBtn = game.add.button(540, 330, 'playBtn', actionOnClick5, this);
+                pauseBtn = game.add.button(540, 330, 'pauseBtn', actionOnClick5, this);
                 pauseBtn.alpha = 0.85;
                 pauseBtn.onInputOver.add(over, this);
                 pauseBtn.onInputOut.add(out, this);
