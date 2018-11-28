@@ -4,7 +4,7 @@ High-fidelity Prototype using Phaser framework
 
 First, [download and install the latest version of Python](https://www.python.org/downloads/) if you do not have it installed already
 
-Or you can use homebrew to install
+Or you can use Homebrew to install
 ```sh
 $ brew install python3
 ```
