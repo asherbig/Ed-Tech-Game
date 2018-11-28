@@ -1,7 +1,7 @@
 DoMi.storyMode = function(game) {};
 DoMi.freePlay = function (game) {};
 
-var homeBtn, freeplayBtn, playlistBtn, musicOn, musicOff, continueBtn, wholeNote, panel, slider, volume, longA, shortA;
+var homeBtn, freeplayBtn, playlistBtn, musicOn, musicOff, continueBtn, wholeNote, panel, slider, sliderBase, volume, longA, shortA;
 
 DoMi.storyMode.prototype = {
 
@@ -36,44 +36,54 @@ DoMi.storyMode.prototype = {
         slickUI.load('assets/slick-ui-master/themes/custom-theme/custom.json');
     },
 
-
-
     create: function () {
-        //Add background and slider base
-        game.add.image(0, -1, 'freeplayBG');
+        //Add groups for drawing layers
+        var backLayer = game.add.group();
+        var midLayer = game.add.group();
+        var frontLayer = game.add.group();
+
+        //Add background
+        var bg = game.add.image(0, -1, 'freeplayBG');
+        backLayer.add(bg);
 
         //Instantiate buttons
         homeBtn = game.add.button(48, 30, 'homeBtn', actionOnClick1, this);
         homeBtn.alpha = 0.85;
         homeBtn.onInputOver.add(over, this);
         homeBtn.onInputOut.add(out, this);
+        frontLayer.add(homeBtn);
 
         storyBtn = game.add.button(123, 30, 'storyBtn', actionOnClick2, this);
         storyBtn.alpha = 0.85;
         storyBtn.onInputOver.add(over, this);
         storyBtn.onInputOut.add(out, this);
+        frontLayer.add(storyBtn);
 
         playlistBtn = game.add.button(198, 30, 'playlistBtn', actionOnClick3, this);
         playlistBtn.alpha = 0.85;
         playlistBtn.onInputOver.add(over, this);
         playlistBtn.onInputOut.add(out, this);
+        frontLayer.add(playlistBtn);
 
         if (BGM.isPlaying === true) {
-        musicOn = game.add.button(1250, 40, 'musicOn', actionOnClick4, this);
-        musicOn.alpha = 0.85;
-        musicOn.onInputOver.add(over, this);
-        musicOn.onInputOut.add(out, this);
+            musicOn = game.add.button(1250, 40, 'musicOn', actionOnClick4, this);
+            musicOn.alpha = 0.85;
+            musicOn.onInputOver.add(over, this);
+            musicOn.onInputOut.add(out, this);
+            frontLayer.add(musicOn);
         } else {
            musicOff = game.add.button(1250, 40, 'musicOff', actionOnClick4, this);
-        musicOff.alpha = 0.85;
-        musicOff.onInputOver.add(over, this);
-        musicOff.onInputOut.add(out, this); 
+            musicOff.alpha = 0.85;
+            musicOff.onInputOver.add(over, this);
+            musicOff.onInputOut.add(out, this); 
+            frontLayer.add(musicOff);
         }
 
         continueBtn = game.add.button(1179, 587, 'continueBtn', actionOnClick5, this);
         continueBtn.alpha = 0.85;
         continueBtn.onInputOver.add(over, this);
         continueBtn.onInputOut.add(out, this);
+        frontLayer.add(continueBtn);
 
         //Add phoneme selector
         var isLong = true;
@@ -82,11 +92,14 @@ DoMi.storyMode.prototype = {
         selectorLeft.alpha = 0.85;
         selectorLeft.onInputOver.add(over, this);
         selectorLeft.onInputOut.add(out, this);
+        frontLayer.add(phoneme);
+        frontLayer.add(selectorLeft);
 
         selectorRight = game.add.button(615, 550, 'selectorRight', actionOnClick4, this);
         selectorRight.alpha = 0.85;
         selectorRight.onInputOver.add(over, this);
         selectorRight.onInputOut.add(out, this);
+        frontLayer.add(selectorRight);
 
 
         //Set button hover and click actions
@@ -151,18 +164,21 @@ DoMi.storyMode.prototype = {
         wholeNote.input.enableDrag(true);
         wholeNote.events.onInputDown.add(inputDown);
         wholeNote.events.onInputUp.add(inputUp);
+        midLayer.add(wholeNote);
 
         halfNote = game.add.sprite(38, 233, 'halfNote');
         halfNote.inputEnabled = 'true';
         halfNote.input.enableDrag(true);
         halfNote.events.onInputDown.add(inputDown);
         halfNote.events.onInputUp.add(inputUp);
+        midLayer.add(halfNote);
 
         quarterNote = game.add.sprite(38, 386, 'quarterNote');
         quarterNote.inputEnabled = 'true';
         quarterNote.input.enableDrag(true);
         quarterNote.events.onInputDown.add(inputDown);
         quarterNote.events.onInputUp.add(inputUp);
+        midLayer.add(quarterNote);
 
         //Populate new note on click
         var wholeCount = 0;
@@ -180,6 +196,7 @@ DoMi.storyMode.prototype = {
                 window[string + wholeCount].input.enableDrag(true);
                 window[string + wholeCount].events.onInputDown.add(inputDown);
                 window[string + wholeCount].events.onInputUp.add(inputUp);
+                midLayer.add(window[string + wholeCount]);
                 wholeCount++;
             } else if (event.previousPosition.x == 38 && event.previousPosition.y == 233) {
                 var string = event.key.replace(/[0-9]/g, '');
@@ -191,6 +208,7 @@ DoMi.storyMode.prototype = {
                 window[string + halfCount].input.enableDrag(true);
                 window[string + halfCount].events.onInputDown.add(inputDown);
                 window[string + halfCount].events.onInputUp.add(inputUp);
+                midLayer.add(window[string + halfCount]);
                 halfCount++;
             } else if (event.previousPosition.x == 38 && event.previousPosition.y == 386) {
                 var string = event.key.replace(/[0-9]/g, '');
@@ -201,9 +219,11 @@ DoMi.storyMode.prototype = {
                 window[string + quarterCount].inputEnabled = 'true';
                 window[string + quarterCount].input.enableDrag(true);
                 window[string + quarterCount].events.onInputDown.add(inputDown);
-                window[string + quarterCount].events.onInputUp.add(inputUp);      
+                window[string + quarterCount].events.onInputUp.add(inputUp); 
+                midLayer.add(window[string + quarterCount]);     
                 quarterCount++;
             }
+            console.log(midLayer);
         }
 
         function inputUp(event) {
@@ -243,9 +263,10 @@ DoMi.storyMode.prototype = {
         }
 
         //Instantiate slider
-        game.add.image(370, 646, 'slider');
+        sliderBase = game.add.image(370, 646, 'slider');
         slickUI.add(panel = new SlickUI.Element.Panel(370, 570, 722, 70));
         panel.add(slider = new SlickUI.Element.Slider(33, 90, panel.width - 68));
+        frontLayer.add(sliderBase);
 
         //Set slider actions
         slider.onDrag.add(function (value) {
@@ -283,6 +304,7 @@ DoMi.freePlay.prototype = {
         game.load.image('playlistBtn', 'icons/playlist.png');
         game.load.image('musicOn', 'icons/toggle-on.png');
         game.load.image('musicOff', 'icons/toggle-off.png');
+        game.load.image('continueBtn', 'icons/continue.png');
         game.load.image('freeplayBG', 'images/free-play/freeplay-BG.png');
         game.load.image('slider', 'images/free-play/slider-base.png');
         game.load.image('wholeNote', 'images/free-play/wholenote-friend.png');
@@ -307,39 +329,54 @@ DoMi.freePlay.prototype = {
         slickUI.load('assets/slick-ui-master/themes/custom-theme/custom.json');
     },
 
-
-
     create: function () {
-        //Add background and slider base
-        game.add.image(0, -1, 'freeplayBG');
+        //Add groups for drawing layers
+        var backLayer = game.add.group();
+        var midLayer = game.add.group();
+        var frontLayer = game.add.group();
+
+        //Add background
+        var bg = game.add.image(0, -1, 'freeplayBG');
+        backLayer.add(bg);
 
         //Instantiate buttons
         homeBtn = game.add.button(48, 30, 'homeBtn', actionOnClick1, this);
         homeBtn.alpha = 0.85;
         homeBtn.onInputOver.add(over, this);
         homeBtn.onInputOut.add(out, this);
+        frontLayer.add(homeBtn);
 
         storyBtn = game.add.button(123, 30, 'storyBtn', actionOnClick2, this);
         storyBtn.alpha = 0.85;
         storyBtn.onInputOver.add(over, this);
         storyBtn.onInputOut.add(out, this);
+        frontLayer.add(storyBtn);
 
         playlistBtn = game.add.button(198, 30, 'playlistBtn', actionOnClick3, this);
         playlistBtn.alpha = 0.85;
         playlistBtn.onInputOver.add(over, this);
         playlistBtn.onInputOut.add(out, this);
+        frontLayer.add(playlistBtn);
 
         if (BGM.isPlaying === true) {
-        musicOn = game.add.button(1250, 40, 'musicOn', actionOnClick4, this);
-        musicOn.alpha = 0.85;
-        musicOn.onInputOver.add(over, this);
-        musicOn.onInputOut.add(out, this);
+            musicOn = game.add.button(1250, 40, 'musicOn', actionOnClick4, this);
+            musicOn.alpha = 0.85;
+            musicOn.onInputOver.add(over, this);
+            musicOn.onInputOut.add(out, this);
+            frontLayer.add(musicOn);
         } else {
            musicOff = game.add.button(1250, 40, 'musicOff', actionOnClick4, this);
-        musicOff.alpha = 0.85;
-        musicOff.onInputOver.add(over, this);
-        musicOff.onInputOut.add(out, this); 
+            musicOff.alpha = 0.85;
+            musicOff.onInputOver.add(over, this);
+            musicOff.onInputOut.add(out, this); 
+            frontLayer.add(musicOff);
         }
+
+        continueBtn = game.add.button(1179, 587, 'continueBtn', actionOnClick5, this);
+        continueBtn.alpha = 0.85;
+        continueBtn.onInputOver.add(over, this);
+        continueBtn.onInputOut.add(out, this);
+        frontLayer.add(continueBtn);
 
         //Add phoneme selector
         var isLong = true;
@@ -348,11 +385,14 @@ DoMi.freePlay.prototype = {
         selectorLeft.alpha = 0.85;
         selectorLeft.onInputOver.add(over, this);
         selectorLeft.onInputOut.add(out, this);
+        frontLayer.add(phoneme);
+        frontLayer.add(selectorLeft);
 
         selectorRight = game.add.button(615, 550, 'selectorRight', actionOnClick4, this);
         selectorRight.alpha = 0.85;
         selectorRight.onInputOver.add(over, this);
         selectorRight.onInputOut.add(out, this);
+        frontLayer.add(selectorRight);
 
 
         //Set button hover and click actions
@@ -407,24 +447,31 @@ DoMi.freePlay.prototype = {
             }
         }
 
+        function actionOnClick5() {
+            game.state.start("song");
+        }
+
         // Set notes as draggable
         wholeNote = game.add.sprite(57, 132, 'wholeNote');
         wholeNote.inputEnabled = 'true';
         wholeNote.input.enableDrag(true);
         wholeNote.events.onInputDown.add(inputDown);
         wholeNote.events.onInputUp.add(inputUp);
+        midLayer.add(wholeNote);
 
         halfNote = game.add.sprite(38, 233, 'halfNote');
         halfNote.inputEnabled = 'true';
         halfNote.input.enableDrag(true);
         halfNote.events.onInputDown.add(inputDown);
         halfNote.events.onInputUp.add(inputUp);
+        midLayer.add(halfNote);
 
         quarterNote = game.add.sprite(38, 386, 'quarterNote');
         quarterNote.inputEnabled = 'true';
         quarterNote.input.enableDrag(true);
         quarterNote.events.onInputDown.add(inputDown);
         quarterNote.events.onInputUp.add(inputUp);
+        midLayer.add(quarterNote);
 
         //Populate new note on click
         var wholeCount = 0;
@@ -442,6 +489,7 @@ DoMi.freePlay.prototype = {
                 window[string + wholeCount].input.enableDrag(true);
                 window[string + wholeCount].events.onInputDown.add(inputDown);
                 window[string + wholeCount].events.onInputUp.add(inputUp);
+                midLayer.add(window[string + wholeCount]);
                 wholeCount++;
             } else if (event.previousPosition.x == 38 && event.previousPosition.y == 233) {
                 var string = event.key.replace(/[0-9]/g, '');
@@ -453,6 +501,7 @@ DoMi.freePlay.prototype = {
                 window[string + halfCount].input.enableDrag(true);
                 window[string + halfCount].events.onInputDown.add(inputDown);
                 window[string + halfCount].events.onInputUp.add(inputUp);
+                midLayer.add(window[string + halfCount]);
                 halfCount++;
             } else if (event.previousPosition.x == 38 && event.previousPosition.y == 386) {
                 var string = event.key.replace(/[0-9]/g, '');
@@ -463,9 +512,11 @@ DoMi.freePlay.prototype = {
                 window[string + quarterCount].inputEnabled = 'true';
                 window[string + quarterCount].input.enableDrag(true);
                 window[string + quarterCount].events.onInputDown.add(inputDown);
-                window[string + quarterCount].events.onInputUp.add(inputUp);      
+                window[string + quarterCount].events.onInputUp.add(inputUp); 
+                midLayer.add(window[string + quarterCount]);     
                 quarterCount++;
             }
+            console.log(midLayer);
         }
 
         function inputUp(event) {
@@ -505,9 +556,10 @@ DoMi.freePlay.prototype = {
         }
 
         //Instantiate slider
-        game.add.image(370, 646, 'slider');
+        sliderBase = game.add.image(370, 646, 'slider');
         slickUI.add(panel = new SlickUI.Element.Panel(370, 570, 722, 70));
         panel.add(slider = new SlickUI.Element.Slider(33, 90, panel.width - 68));
+        frontLayer.add(sliderBase);
 
         //Set slider actions
         slider.onDrag.add(function (value) {
