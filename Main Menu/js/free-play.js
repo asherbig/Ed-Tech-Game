@@ -11,7 +11,6 @@ DoMi.freePlay.prototype = {
         game.load.image('playlistBtn', 'icons/playlist.png');
         game.load.image('musicOn', 'icons/toggle-on.png');
         game.load.image('musicOff', 'icons/toggle-off.png');
-        game.load.image('continueBtn', 'icons/continue.png');
         game.load.image('freeplayBG', 'images/free-play/freeplay-BG.png');
         game.load.image('slider', 'images/free-play/slider-base.png');
         game.load.image('wholeNote', 'images/free-play/wholenote-friend.png');
@@ -70,12 +69,6 @@ DoMi.freePlay.prototype = {
         musicOff.onInputOver.add(over, this);
         musicOff.onInputOut.add(out, this); 
         }
-        
-
-        continueBtn = game.add.button(1179, 587, 'continueBtn', actionOnClick5, this);
-        continueBtn.alpha = 0.85;
-        continueBtn.onInputOver.add(over, this);
-        continueBtn.onInputOut.add(out, this);
 
         //Add phoneme selector
         var isLong = true;
