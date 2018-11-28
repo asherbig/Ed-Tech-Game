@@ -4,7 +4,6 @@ var width = 1366;
 var height = 768;
 var homeBtn, freeplayBtn, playlistBtn, musicBtn, continueBtn, homeBtn2, noteFriend;
 var levelFinished;
-var volume;
 var shark;
 var bubbles = [];
 var targetLetter = '';
@@ -273,7 +272,6 @@ DoMi.bubblePop.prototype = {
                     music = game.add.audio('shortTone1');
                 }
             }
-            music.volume = (volume == undefined) ? 0.5 : volume;
             music.play();
         }
 
@@ -281,7 +279,6 @@ DoMi.bubblePop.prototype = {
             setTimeout(function () {
                 let i = rand(0, 5);
                 let music = game.add.audio(yayOptions[i]);
-                music.volume = (volume == undefined) ? 0.5 : volume;
                 music.play();
             }, delay);
         }
@@ -290,7 +287,6 @@ DoMi.bubblePop.prototype = {
             setTimeout(function () {
                 let i = rand(0, 3);
                 let music = game.add.audio(oopsOptions[i]);
-                music.volume = (volume == undefined) ? 0.5 : volume;
                 music.play();
             }, delay);
         }
@@ -300,7 +296,6 @@ DoMi.bubblePop.prototype = {
                 return;
             }
             let music = game.add.audio(instructions[i]);
-            music.volume = (volume == undefined) ? 0.5 : volume;
             music.play();
         }
 
