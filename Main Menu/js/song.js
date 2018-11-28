@@ -66,6 +66,11 @@ DoMi.song.prototype = {
             pauseBtn.onInputOut.add(out, this);
         }
 
+        continueBtn = game.add.button(1179, 587, 'continueBtn', actionOnClick6, this);
+        continueBtn.alpha = 0.85;
+        continueBtn.onInputOver.add(over, this);
+        continueBtn.onInputOut.add(out, this);
+
         //Set button hover and click actions
         function over(event) {
             window[event.key].alpha = 1;
@@ -141,14 +146,11 @@ DoMi.song.prototype = {
             }
             music.onStop.addOnce(function() {
                 BGM.resume();
-                continueBtn = game.add.button(1179, 587, 'continueBtn', actionOnClick6, this);
-                continueBtn.alpha = 0.85;
-                continueBtn.onInputOver.add(over, this);
-                continueBtn.onInputOut.add(out, this);
             });
         }
 
         function actionOnClick6(event) {
+            music.stop();
             game.state.start("bubblePop");
         }
     }

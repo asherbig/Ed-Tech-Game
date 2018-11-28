@@ -1,7 +1,7 @@
 DoMi.storyMode = function(game) {};
 DoMi.freePlay = function (game) {};
 
-var homeBtn, freeplayBtn, playlistBtn, musicOn, musicOff, continueBtn, wholeNote, panel, slider, volume, longA, shortA, frontLayer, backLayer;
+var homeBtn, freeplayBtn, playlistBtn, musicOn, musicOff, continueBtn, wholeNote, panel, slider, volume, longA, shortA;
 
 DoMi.storyMode.prototype = {
 
@@ -272,16 +272,6 @@ DoMi.storyMode.prototype = {
             }
             volume = value;
         });
-
-        //Bring elements aside from music notes to top
-        game.world.bringToTop(selectorLeft);
-        game.world.bringToTop(selectorRight);
-        game.world.bringToTop(phoneme);
-        game.world.bringToTop(homeBtn);
-        game.world.bringToTop(storyBtn);
-        game.world.bringToTop(playlistBtn);
-        game.world.bringToTop(musicOn);
-        game.world.bringToTop(musicOff);
     }
 }
 
@@ -544,15 +534,5 @@ DoMi.freePlay.prototype = {
             }
             volume = value;
         });
-
-        //Bring elements aside from music notes to top
-        game.world.bringToTop(selectorLeft);
-        game.world.bringToTop(selectorRight);
-        game.world.bringToTop(phoneme);
-        game.world.bringToTop(homeBtn);
-        game.world.bringToTop(storyBtn);
-        game.world.bringToTop(playlistBtn);
-        game.world.bringToTop(musicOn);
-        game.world.bringToTop(musicOff);
     }
 }
