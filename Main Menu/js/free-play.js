@@ -172,7 +172,7 @@ DoMi.freePlay.prototype = {
         var quarterCount = 0;
 
         function inputDown(event) {
-            if (event.key == 'wholeNote') {
+            if (event.previousPosition.x == 57 && event.previousPosition.y == 162) {
                 var string = event.key.replace(/[0-9]/g, '');
                 window[string + wholeCount] = game.add.sprite(57, 162, "wholeNote");
                 if (volume != undefined) {
@@ -182,8 +182,9 @@ DoMi.freePlay.prototype = {
                 window[string + wholeCount].input.enableDrag(true);
                 window[string + wholeCount].events.onInputDown.add(inputDown);
                 window[string + wholeCount].events.onInputUp.add(inputUp);
+                console.log(window[string + wholeCount]);
                 wholeCount++;
-            } else if (event.key == 'halfNote') {
+            } else if (event.previousPosition.x == 68 && event.previousPosition.y == 250) {
                 var string = event.key.replace(/[0-9]/g, '');
                 window[string + halfCount] = game.add.sprite(68, 250, 'halfNote');
                 if (volume != undefined) {
@@ -194,7 +195,7 @@ DoMi.freePlay.prototype = {
                 window[string + halfCount].events.onInputDown.add(inputDown);
                 window[string + halfCount].events.onInputUp.add(inputUp);
                 halfCount++;
-            } else {
+            } else if (event.previousPosition.x == 64 && event.previousPosition.y == 399) {
                 var string = event.key.replace(/[0-9]/g, '');
                 window[string + quarterCount] = game.add.sprite(64, 399, 'quarterNote');
                 if (volume != undefined) {
@@ -203,7 +204,7 @@ DoMi.freePlay.prototype = {
                 window[string + quarterCount].inputEnabled = 'true';
                 window[string + quarterCount].input.enableDrag(true);
                 window[string + quarterCount].events.onInputDown.add(inputDown);
-                window[string + quarterCount].events.onInputUp.add(inputUp);
+                window[string + quarterCount].events.onInputUp.add(inputUp);      
                 quarterCount++;
             }
         }
