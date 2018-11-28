@@ -1,7 +1,7 @@
 DoMi.storyMode = function(game) {};
 DoMi.freePlay = function (game) {};
 
-var homeBtn, freeplayBtn, playlistBtn, musicOn, musicOff, continueBtn, wholeNote, panel, slider, volume, longA, shortA;
+var homeBtn, freeplayBtn, playlistBtn, musicOn, musicOff, continueBtn, wholeNote, panel, slider, volume, longA, shortA, frontLayer, backLayer;
 
 DoMi.storyMode.prototype = {
 
