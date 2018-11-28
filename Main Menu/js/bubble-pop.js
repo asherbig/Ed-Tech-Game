@@ -321,33 +321,35 @@ DoMi.bubblePop.prototype = {
         //should populate the params for these function calls via csv in the future
         function loadNextLesson(delay) {
             setTimeout(function () {
-                if (game.state.current !== 'bubblePop') {
-                    return;
-                }
-                if (numRight === 0) {
-                    generate5Bubbles(['A', 'B', 'C', 'D', 'E']);
-                } else if (numRight === 1) {
-                    generate5Bubbles(['La', 'f', 'c', 'n', 's'], "high");
-                } else if (numRight === 2) {
-                    generate5Bubbles(['Sa', 'h', 'i', 'v', 'x']);
-                } else if (numRight === 3) {
-                    generate5Bubbles(['La', 'k', 'n', 'i', 'e']);
-                } else if (numRight === 4) {
-                    generate5Bubbles(['La', 'x', 'E', 'i', 'e'], "low");
-                } else if (numRight === 5) {
-                    generate5Bubbles(['Sa', 'k', 'f', 'n', 'e']);
-                } else if (numRight === 6) {
+                // if (game.state.current !== 'bubblePop') {
+                //     return;
+                // }
+                // if (numRight === 0) {
+                //     generate5Bubbles(['A', 'B', 'C', 'D', 'E']);
+                // } else if (numRight === 1) {
+                //     generate5Bubbles(['La', 'f', 'c', 'n', 's'], "high");
+                // } else if (numRight === 2) {
+                //     generate5Bubbles(['Sa', 'h', 'i', 'v', 'x']);
+                // } else if (numRight === 3) {
+                //     generate5Bubbles(['La', 'k', 'n', 'i', 'e']);
+                // } else if (numRight === 4) {
+                //     generate5Bubbles(['La', 'x', 'E', 'i', 'e'], "low");
+                // } else if (numRight === 5) {
+                //     generate5Bubbles(['Sa', 'k', 'f', 'n', 'e']);
+                // } else if (numRight === 6) {
                     showExitScreen();
-                }
+                // }
                 playLessonAudio(numRight);
                 levelFinished = false;
             }, delay);
         }
 
         function showExitScreen() {
-            let victory = game.add.sprite(1366 / 2 - 639 / 2, 768 / 2 - 100, 'great-job-title');
-            let big = game.add.sprite(1366 / 2 - 540 / 2, 768 / 2 + 150, 'continue');
-            homeBtn2 = game.add.button(width/2 - 100, height/2, 'homeBtn2', actionOnClick1, this);
+            noteFriend.destroy();
+            shark.destroy();
+            let victory = game.add.sprite(1366 / 2 - 639 / 2, 768 / 2 - 150, 'great-job-title');
+            let big = game.add.sprite(1366 / 2 - 540 / 2, 768 / 2 + 100, 'continue');
+            homeBtn2 = game.add.button(width/2 - 100, 328, 'homeBtn2', actionOnClick1, this);
             homeBtn2.alpha = 0.85;
             homeBtn2.onInputOver.add(over, this);
             homeBtn2.onInputOut.add(out, this);
