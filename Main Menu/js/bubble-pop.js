@@ -47,10 +47,8 @@ DoMi.bubblePop.prototype = {
             game.load.image('e', 'images/bubble-pop/e-lowercase.png');
             game.load.image('great-job-title', 'images/bubble-pop/great-job.png');
             game.load.image('continue', 'images/bubble-pop/continue.png');
-            game.load.image('note-friend', 'images/bubble-pop/wholenote-friend.png');
+            game.load.image('note-friend', 'images/bubble-pop/notefriend.png');
             game.load.image('homeBtn2', 'icons/home-bigger.png');
-            game.load.image('click-me', 'images/bubble-pop/click-me.png');
-            game.load.image('for-help', 'images/bubble-pop/for-help.png');
 
             game.load.spritesheet('bubblePop', 'images/bubble-pop/short-pop-sheet.png', 394, 380);
             
@@ -114,9 +112,7 @@ DoMi.bubblePop.prototype = {
                 musicOff.onInputOut.add(out, this);
             }
 
-            noteFriend = game.add.button(100 - 51, 500 - 30, 'note-friend', actionClickFriend, this);
-            game.add.image(100 - 62, 450, 'click-me');
-            game.add.image(100 - 60, 600, 'for-help');
+            noteFriend = game.add.button(49, 380, 'note-friend', actionClickFriend, this);
 
             //Set shark and make draggable
             shark = game.add.sprite(100, 200, 'shark');
