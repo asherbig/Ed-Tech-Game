@@ -321,24 +321,24 @@ DoMi.bubblePop.prototype = {
         //should populate the params for these function calls via csv in the future
         function loadNextLesson(delay) {
             setTimeout(function () {
-                // if (game.state.current !== 'bubblePop') {
-                //     return;
-                // }
-                // if (numRight === 0) {
-                //     generate5Bubbles(['A', 'B', 'C', 'D', 'E']);
-                // } else if (numRight === 1) {
-                //     generate5Bubbles(['La', 'f', 'c', 'n', 's'], "high");
-                // } else if (numRight === 2) {
-                //     generate5Bubbles(['Sa', 'h', 'i', 'v', 'x']);
-                // } else if (numRight === 3) {
-                //     generate5Bubbles(['La', 'k', 'n', 'i', 'e']);
-                // } else if (numRight === 4) {
-                //     generate5Bubbles(['La', 'x', 'E', 'i', 'e'], "low");
-                // } else if (numRight === 5) {
-                //     generate5Bubbles(['Sa', 'k', 'f', 'n', 'e']);
-                // } else if (numRight === 6) {
+                if (game.state.current !== 'bubblePop') {
+                    return;
+                }
+                if (numRight === 0) {
+                    generate5Bubbles(['A', 'B', 'C', 'D', 'E']);
+                } else if (numRight === 1) {
+                    generate5Bubbles(['La', 'f', 'c', 'n', 's'], "high");
+                } else if (numRight === 2) {
+                    generate5Bubbles(['Sa', 'h', 'i', 'v', 'x']);
+                } else if (numRight === 3) {
+                    generate5Bubbles(['La', 'k', 'n', 'i', 'e']);
+                } else if (numRight === 4) {
+                    generate5Bubbles(['La', 'x', 'E', 'i', 'e'], "low");
+                } else if (numRight === 5) {
+                    generate5Bubbles(['Sa', 'k', 'f', 'n', 'e']);
+                } else if (numRight === 6) {
                     showExitScreen();
-                // }
+                }
                 playLessonAudio(numRight);
                 levelFinished = false;
             }, delay);
