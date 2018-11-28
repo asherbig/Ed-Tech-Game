@@ -14,9 +14,9 @@ DoMi.freePlay.prototype = {
         game.load.image('continueBtn', 'icons/continue.png');
         game.load.image('freeplayBG', 'images/free-play/freeplay-BG.png');
         game.load.image('slider', 'images/free-play/slider-base.png');
-        game.load.image('wholeNote', 'images/wholenote-friend.png');
-        game.load.image('halfNote', 'images/halfnote-friend.png');
-        game.load.image('quarterNote', 'images/quarternote-friend.png');
+        game.load.image('wholeNote', 'images/free-play/wholenote-friend.png');
+        game.load.image('halfNote', 'images/free-play/halfnote-friend.png');
+        game.load.image('quarterNote', 'images/free-play/quarternote-friend.png');
         game.load.image('shortA', 'images/free-play/short-a.png');
         game.load.image('longA', 'images/free-play/long-a.png');
         game.load.image('selectorLeft', 'images/free-play/selector-left.png');
