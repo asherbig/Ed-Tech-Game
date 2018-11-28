@@ -23,8 +23,9 @@
 
 </div>
     <script>
-
-        var game = new Phaser.Game(1366, 768, Phaser.AUTO, 'canvas', { preload: preload, create: create, update: update });
+        var width = 1366;
+        var height = 768
+        var game = new Phaser.Game(width, height, Phaser.AUTO, 'canvas', { preload: preload, create: create, update: update });
 
         function preload () {
 
@@ -38,30 +39,64 @@
             game.load.image('shark', 'images/nice-shark.png');
             game.load.image('La', 'images/long-a.png');
             game.load.image('Sa', 'images/short-a.png');
-            // game.load.image('A','images/A.png');
-            // game.load.image('B','images/B.png');
-            // game.load.image('C','images/C.png');
-            // game.load.image('D','images/D.png');
-            // game.load.image('E','images/E.png');
-            // game.load.image('f','images/f.png');
-            // game.load.image('c','images/c.png');
-            // game.load.image('n','images/n.png');
-            // game.load.image('s','images/s.png');
-            // game.load.image('h','images/h.png');
-            // game.load.image('i','images/i.png');
-            // game.load.image('v','images/v.png');
-            // game.load.image('x','images/x.png');
-            // game.load.image('k','images/k.png');
-            // game.load.image('e','images/e.png');
+            game.load.image('A','images/A.png');
+            game.load.image('B','images/B.png');
+            game.load.image('C','images/C.png');
+            game.load.image('D','images/D.png');
+            game.load.image('E','images/E.png');
+            game.load.image('f','images/f.png');
+            game.load.image('c','images/c-lowercase.png');
+            game.load.image('n','images/n.png');
+            game.load.image('s','images/s.png');
+            game.load.image('h','images/h.png');
+            game.load.image('i','images/i.png');
+            game.load.image('v','images/v.png');
+            game.load.image('x','images/x.png');
+            game.load.image('k','images/k.png');
+            game.load.image('e','images/e-lowercase.png');
+            game.load.image('great-job-title', 'images/great-job.png');
+            game.load.image('continue', 'images/continue.png');
             game.load.spritesheet('bubblePop', 'images/short-pop-sheet.png', 394, 380 );
+            game.load.audio('longTone1', 'audio/long-tone1.mp3'); //low
+            game.load.audio('longTone2', 'audio/long-tone2.mp3');
+            game.load.audio('longTone3', 'audio/long-tone3.mp3');
+            game.load.audio('longTone4', 'audio/long-tone4.mp3');
+            game.load.audio('longTone5', 'audio/long-tone5.mp3'); //high
+            game.load.audio('shortTone1', 'audio/short-tone1.mp3'); //low
+            game.load.audio('shortTone2', 'audio/short-tone2.mp3');
+            game.load.audio('shortTone3', 'audio/short-tone3.mp3');
+            game.load.audio('shortTone4', 'audio/short-tone4.mp3');
+            game.load.audio('shortTone5', 'audio/short-tone5.mp3'); //high
+            game.load.audio('find-big-a', 'audio/prompt/find-big-a.mp3');
+            game.load.audio('find-high', 'audio/prompt/find-high.mp3');
+            game.load.audio('find-little-a', 'audio/prompt/find-little-a.mp3');
+            game.load.audio('find-long-a', 'audio/prompt/find-long-a.mp3');
+            game.load.audio('find-low', 'audio/prompt/find-low.mp3');
+            game.load.audio('find-short-a', 'audio/prompt/find-short-a.mp3');
+            game.load.audio('amazing', 'audio/support/amazing.mp3');
+            game.load.audio('fantastic', 'audio/support/fantastic.mp3');
+            game.load.audio('great-job', 'audio/support/great-job.mp3');
+            game.load.audio('incredible', 'audio/support/incredible.mp3');
+            game.load.audio('very-good', 'audio/support/very-good.mp3');
+            game.load.audio('oops', 'audio/support/oops.mp3');
+            game.load.audio('try-again', 'audio/support/try-again.mp3');
+            game.load.audio('uh-oh', 'audio/support/uh-oh.mp3');
+
         }
 
         var homeBtn, freeplayBtn, playlistBtn, musicBtn, continueBtn;
+        var levelFinished;
+        var volume;
         var shark;
         var bubbles = [];
         var targetLetter = '';
         var numRight = 0;
-        var fuck = [1, 2]
+        var yayOptions = ['amazing', 'fantastic', 'great-job', 'incredible', 'very-good'];
+        var oopsOptions = ['oops', 'try-again', 'uh-oh'];
+
+        //def move this to a csv that reads in the lessons
+        //but for now, here are the lessons lol yay
+        var instructions = ['find-big-a', 'find-high', 'find-little-a', 'find-long-a', 'find-low', 'find-short-a'];
 
         function create() {
             //Set background
@@ -87,58 +122,6 @@
             musicOn.alpha = 0.85;
             musicOn.onInputOver.add(over, this);
             musicOn.onInputOut.add(out, this);
-
-            // continueBtn = game.add.button(1179, 587, 'continueBtn', actionOnClick, this);
-            // continueBtn.alpha = 0.85;
-            // continueBtn.onInputOver.add(over, this);
-            // continueBtn.onInputOut.add(out, this);
-
-            function actionOnClick(event) {
-                if (event.key == 'musicOn') {
-                    musicOn.destroy();
-                    musicOff = game.add.button(1250, 40, 'musicOff', actionOnClick, this);
-                    musicOff.alpha = 0.85;
-                    musicOff.onInputOver.add(over, this);
-                    musicOff.onInputOut.add(out, this);
-                } else if (event.key == 'musicOff') {
-                    musicOff.destroy();
-                    musicOn = game.add.button(1250, 40, 'musicOn', actionOnClick, this);
-                    musicOn.alpha = 0.85;
-                    musicOn.onInputOver.add(over, this);
-                    musicOn.onInputOut.add(out, this);
-                }
-            }
-
-            //Set button hover and click actions
-            function over(event) {
-                window[event.key].alpha = 1;
-                document.body.style.cursor = "pointer";
-            }
-            function out(event) {
-                window[event.key].alpha = 0.85;
-                document.body.style.cursor = "default";
-            }
-
-            // //Place some starting bubbles
-            // for (let i = 0; i < 5; i++) {
-            //     let x = 500 + rand(0, 500);
-            //     let y = (i + 1) * 100;
-            //     if (i % 2) {
-            //         bubbles.push(makeBubble(x, y, 'LA'));
-            //     } else {
-            //         bubbles.push(makeBubble(x, y, 'SA'));
-            //     }
-            // }
-
-            //lessons
-            // generate5Bubbles(['A', 'B', 'C', 'D', 'E']);
-            // generate5Bubbles(['La', 'f', 'c', 'n', 's'], "high");
-            // generate5Bubbles(['Sa', 'h', 'i', 'v', 'x']);
-            // generate5Bubbles(['La', 'k', 'n', 'i', 'e']);
-            // generate5Bubbles(['La', 'x', 'E', 'i', 'e'], "low");
-            // generate5Bubbles(['Sa', 'k', 'f', 'n', 'e']);
-
-            generate5Bubbles(['La', 'Sa', 'La', 'Sa', 'Sa'], "low");
             
             //Set shark and make draggable
             shark = game.add.sprite(100, 200, 'shark');
@@ -149,7 +132,10 @@
             //change the collision box to not be so weird
             //only the head of the shark will pop bubbles
             shark.body.setSize(66, 55, 162, 3);
-            
+
+            loadNextLesson();
+            console.log(Phaser);
+            //showExitScreen();
         }
 
         function update() {
@@ -169,17 +155,28 @@
         function popHandler (shark, bubble) {
             //only pop the bubble if it's the right letter
             if (bubble.letter === targetLetter) {
-                clearBubbles(1000);
+                //play a sound for correct bubble
+                levelFinished = true;
+                playBubbleSound(bubble.y, bubble.letter);
+                numRight++;
+                resetShark();
+                clearBubbles(2000);
+                loadNextLesson(3500);
+                playPraise(2250);
                 bubble.animations.play('pop', 10, false, true);
-                console.log(bubble.letter, bubble.myX, bubble.myY);
-                console.log(bubble.x, bubble.y);
                 for (let i in bubbles) { 
                     if ( bubbles[i] === bubble) {
                         bubbles.splice(i, 1); 
                     }
                 }
-            } else {
-                //try again, don't pop bubble
+            } else if (!levelFinished) {
+                playOops(0);
+                bubble.animations.play('pop', 10, false, true);
+                for (let i in bubbles) { 
+                    if ( bubbles[i] === bubble) {
+                        bubbles.splice(i, 1); 
+                    }
+                }
             }
             
         }
@@ -245,6 +242,71 @@
             return bubble;
         }
 
+        function playBubbleSound(y, letter) {
+            let music;
+            let isLong = true;
+            if (letter === 'Sa') {
+                isLong = false;
+            }
+            if (y <= 100) {
+                    if (isLong) {
+                        music = game.add.audio('longTone5');
+                    } else {
+                        music = game.add.audio('shortTone5');
+                    }
+                } else if (y > 100 && y <= 200) {
+                    if (isLong) {
+                        music = game.add.audio('longTone4');
+                    } else {
+                        music = game.add.audio('shortTone4');
+                    }
+                } else if (y > 200 && y <= 300) {
+                    if (isLong) {
+                        music = game.add.audio('longTone3');
+                    } else {
+                        music = game.add.audio('shortTone3');
+                    }
+                } else if (y > 300 && y <= 400) {
+                    if (isLong) {
+                        music = game.add.audio('longTone2');
+                    } else {
+                        music = game.add.audio('shortTone2');
+                    }
+                } else {
+                    if (isLong) {
+                        music = game.add.audio('longTone1');
+                    } else {
+                        music = game.add.audio('shortTone1');
+                    }
+                }
+                music.volume = (volume == undefined) ? 0.5 : volume;
+                music.play();
+        }
+
+        function playPraise(delay) {
+            setTimeout(function() {
+                let i = rand(0, 5);
+                let music = game.add.audio(yayOptions[i]);
+                music.volume = (volume == undefined) ? 0.5 : volume;
+                music.play();
+            }, delay);
+        }
+
+        function playOops(delay) {
+            setTimeout(function() {
+                let i = rand(0, 3);
+                let music = game.add.audio(oopsOptions[i]);
+                music.volume = (volume == undefined) ? 0.5 : volume;
+                music.play();
+            }, delay); 
+        }
+
+        function playLessonAudio(i) {
+            let music = game.add.audio(instructions[i]);
+            music.volume = (volume == undefined) ? 0.5 : volume;
+            music.play();
+        }
+
         function clearBubbles(delay) {
             setTimeout(function() {
             for (i in bubbles) {
@@ -254,6 +316,73 @@
             }, delay)
         }
 
+        function resetShark() {
+            shark.input.disableDrag();
+            game.physics.arcade.moveToXY(shark, 100, 300, 2, 1000);
+            setTimeout(function() {
+                shark.body.velocity.x = 0;
+                shark.body.velocity.y = 0;
+                shark.input.enableDrag();
+            }, 1000);
+        }
+
+        //should populate the params for these function calls via csv in the future
+        function loadNextLesson(delay) {
+            setTimeout(function() {
+                if (numRight === 0) {
+                    generate5Bubbles(['A', 'B', 'C', 'D', 'E']);
+                } else if (numRight === 1) {
+                    generate5Bubbles(['La', 'f', 'c', 'n', 's'], "high");
+                } else if (numRight === 2) {
+                    generate5Bubbles(['Sa', 'h', 'i', 'v', 'x']);
+                } else if (numRight === 3) {
+                    generate5Bubbles(['La', 'k', 'n', 'i', 'e']);
+                } else if (numRight === 4) {
+                    generate5Bubbles(['La', 'x', 'E', 'i', 'e'], "low");
+                } else if (numRight === 5) {
+                    generate5Bubbles(['Sa', 'k', 'f', 'n', 'e']);
+                } else if (numRight === 6) {
+                    showExitScreen();
+                }
+                playLessonAudio(numRight);
+                levelFinished = false;
+            }, delay);
+        }
+
+        function showExitScreen() {
+            let victory = game.add.sprite(width/2 - 639/2, height/2 - 100, 'great-job-title');
+            let big = game.add.sprite(width/2 - 540/2, height/2 + 150, 'continue');
+            continueBtn = game.add.button(width/2 - 90, height/2, 'continueBtn', actionOnClick, this);
+            continueBtn.alpha = 0.85;
+            continueBtn.onInputOver.add(over, this);
+            continueBtn.onInputOut.add(out, this);
+        }
+
+        function actionOnClick(event) {
+            if (event.key == 'musicOn') {
+                musicOn.destroy();
+                musicOff = game.add.button(1250, 40, 'musicOff', actionOnClick, this);
+                musicOff.alpha = 0.85;
+                musicOff.onInputOver.add(over, this);
+                musicOff.onInputOut.add(out, this);
+            } else if (event.key == 'musicOff') {
+                musicOff.destroy();
+                musicOn = game.add.button(1250, 40, 'musicOn', actionOnClick, this);
+                musicOn.alpha = 0.85;
+                musicOn.onInputOver.add(over, this);
+                musicOn.onInputOut.add(out, this);
+            }
+        }
+        //Set button hover and click actions
+        function over(event) {
+            window[event.key].alpha = 1;
+            document.body.style.cursor = "pointer";
+        }
+        function out(event) {
+            window[event.key].alpha = 0.85;
+            document.body.style.cursor = "default";
+        }
+        
         //exclusive random number [num1, num2)
         function rand(num1, num2) {
             return Math.floor(Math.random() * (num2 - num1)) + num1;  
