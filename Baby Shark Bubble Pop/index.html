@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <script src="lib/phaser.js"></script>
+    <script src="lib/phaser-2.js"></script>
     <style>
         body {
             padding: 0;
@@ -23,153 +23,244 @@
 
 </div>
     <script>
-        var config = {
-            type: Phaser.AUTO,
-            width: 1366,
-            height: 768,
-            parent: "canvas",
-            scene: {
-                preload: preload,
-                create: create,
-                update: update
-            }
-        };
 
-        var game = new Phaser.Game(config);
-        var shark;
-        var bubble;
+        var game = new Phaser.Game(1366, 768, Phaser.AUTO, 'canvas', { preload: preload, create: create, update: update });
 
         function preload () {
 
-            this.load.image('home', 'icons/home.png');
-            this.load.image('freeplay', 'icons/freeplay.png');
-            this.load.image('playlist', 'icons/playlist.png');
-            this.load.image('musicOn', 'icons/toggle-on.png');
-            this.load.image('musicOff', 'icons/toggle-off.png');
-            this.load.image('continue', 'icons/continue.png');
-            this.load.image('freeplayBG', 'images/freeplay-BG.png');
-            this.load.image('shark', 'images/nice-shark.png');
-            this.load.spritesheet('bubblePop', 'images/bubble_pop_under_water_spritesheet.png', {frameWidth: 394, frameHeight: 511} );
+            game.load.image('homeBtn', 'icons/home.png');
+            game.load.image('freeplayBtn', 'icons/freeplay.png');
+            game.load.image('playlistBtn', 'icons/playlist.png');
+            game.load.image('musicOn', 'icons/toggle-on.png');
+            game.load.image('musicOff', 'icons/toggle-off.png');
+            game.load.image('continueBtn', 'icons/continue.png');
+            game.load.image('freeplayBG', 'images/freeplay-BG.png');
+            game.load.image('shark', 'images/nice-shark.png');
+            game.load.image('LA', 'images/long-a.png');
+            game.load.image('SA', 'images/short-a.png');
+            game.load.spritesheet('bubblePop', 'images/short-pop-sheet.png', 394, 380 );
         }
+
+        var homeBtn, freeplayBtn, playlistBtn, musicBtn, continueBtn;
+        var shark;
+        var bubbles = [];
+        var targetLetter = 'LA';
+        var numRight = 0;
+        var fuck = [1, 2]
 
         function create() {
             //Set background
-            this.add.image(685, 384, 'freeplayBG');
+            game.add.image(0, -1, 'freeplayBG');
 
-            //Home button
-            this.homeBtn = this.add.sprite(90, 70, 'home').setInteractive();
-            this.homeBtn.alpha = 0.85;
-            this.homeBtn.on('pointerover', function (event) {
-            this.alpha = 1;
+            //Instantiate buttons
+            homeBtn = game.add.button(48, 30, 'homeBtn', actionOnClick, this);
+            homeBtn.alpha = 0.85;
+            homeBtn.onInputOver.add(over, this);
+            homeBtn.onInputOut.add(out, this);
+
+            freeplayBtn = game.add.button(123, 30, 'freeplayBtn', actionOnClick, this);
+            freeplayBtn.alpha = 0.85;
+            freeplayBtn.onInputOver.add(over, this);
+            freeplayBtn.onInputOut.add(out, this);
+
+            playlistBtn = game.add.button(198, 30, 'playlistBtn', actionOnClick, this);
+            playlistBtn.alpha = 0.85;
+            playlistBtn.onInputOver.add(over, this);
+            playlistBtn.onInputOut.add(out, this);
+
+            musicOn = game.add.button(1250, 40, 'musicOn', actionOnClick, this);
+            musicOn.alpha = 0.85;
+            musicOn.onInputOver.add(over, this);
+            musicOn.onInputOut.add(out, this);
+
+            // continueBtn = game.add.button(1179, 587, 'continueBtn', actionOnClick, this);
+            // continueBtn.alpha = 0.85;
+            // continueBtn.onInputOver.add(over, this);
+            // continueBtn.onInputOut.add(out, this);
+
+            function actionOnClick(event) {
+                if (event.key == 'musicOn') {
+                    musicOn.destroy();
+                    musicOff = game.add.button(1250, 40, 'musicOff', actionOnClick, this);
+                    musicOff.alpha = 0.85;
+                    musicOff.onInputOver.add(over, this);
+                    musicOff.onInputOut.add(out, this);
+                } else if (event.key == 'musicOff') {
+                    musicOff.destroy();
+                    musicOn = game.add.button(1250, 40, 'musicOn', actionOnClick, this);
+                    musicOn.alpha = 0.85;
+                    musicOn.onInputOver.add(over, this);
+                    musicOn.onInputOut.add(out, this);
+                }
+            }
+
+            //Set button hover and click actions
+            function over(event) {
+                window[event.key].alpha = 1;
                 document.body.style.cursor = "pointer";
-            });
-            this.homeBtn.on('pointerout', function (event) {
-            this.alpha = 0.85;
+            }
+            function out(event) {
+                window[event.key].alpha = 0.85;
                 document.body.style.cursor = "default";
-            });
+            }
 
-            //Freeplay Button
-            this.freeplayBtn = this.add.sprite(165, 70, 'freeplay').setInteractive();
-            this.freeplayBtn.alpha = 0.85;
-            this.freeplayBtn.on('pointerover', function (event) {
-            this.alpha = 1;
-                document.body.style.cursor = "pointer";
-            });
-            this.freeplayBtn.on('pointerout', function (event) {
-            this.alpha = 0.85;
-                document.body.style.cursor = "default";
-            });
+            // //Place some starting bubbles
+            // for (let i = 0; i < 5; i++) {
+            //     let x = 500 + rand(0, 500);
+            //     let y = (i + 1) * 100;
+            //     if (i % 2) {
+            //         bubbles.push(makeBubble(x, y, 'LA'));
+            //     } else {
+            //         bubbles.push(makeBubble(x, y, 'SA'));
+            //     }
+            // }
 
-            //Playlist button
-            this.playlistBtn = this.add.sprite(240, 70, 'playlist').setInteractive();
-            this.playlistBtn.alpha = 0.85;
-            this.playlistBtn.on('pointerover', function (event) {
-            this.alpha = 1;
-                document.body.style.cursor = "pointer";
-            });
-            this.playlistBtn.on('pointerout', function (event) {
-            this.alpha = 0.85;
-                document.body.style.cursor = "default";
-            });
-
-            //Toggle music button 
-            this.MusicBtn = this.add.sprite(1280, 70, 'musicOn').setInteractive();
-            this.MusicBtn.alpha = 0.85;
-            this.MusicBtn.on('pointerover', function (event) {
-            this.alpha = 1;
-                document.body.style.cursor = "pointer";
-            });
-            this.MusicBtn.on('pointerout', function (event) {
-            this.alpha = 0.85;
-                document.body.style.cursor = "default";
-            });
-            this.MusicBtn.on('pointerdown', function (event) {
-                // this.MusicBtn = this.add.sprite(1280, 70, 'musicOff').setInteractive();
-                // this.MusicBtn.alpha = 0.85;
-                // this.MusicBtn.on('pointerover', function (event) { this.alpha = 1;
-                //     document.body.style.cursor = "pointer";
-                // });
-                // this.MusicBtn.on('pointerout', function (event) { this.alpha = 0.85;
-                //     document.body.style.cursor = "default"; 
-                // });
-                // this.MusicBtn.setTexture(this.MusicBtn, 'musicOff', 0);
-            });
-
-            //Continue button
-            this.continueBtn = this.add.sprite(1260, 665, 'continue').setInteractive();
-            this.continueBtn.alpha = 0.85;
-            this.continueBtn.on('pointerover', function (event) {
-                //if the user is allowed to continue, let them
-                this.alpha = 1;
-                document.body.style.cursor = "pointer";
-            });
-            this.continueBtn.on('pointerout', function (event) {
-                this.alpha = 0.85;
-                document.body.style.cursor = "default";
-            });
-
-            //Place some starting bubbles
-            console.log(this);
-            bubble = this.add.sprite(700, 300, 'bubblePop');
-            console.log(bubble);
-            console.log(bubble.animations);
-            console.log(this);
-            //bubble.animations.add('pop');
-            //bubble.animations.play('pop', 10, false, true);
+            generate5Bubbles(['LA', 'SA', 'LA', 'SA', 'SA'], "low");
             
             //Set shark and make draggable
-            shark = this.add.sprite(200, 300, 'shark').setInteractive();
-            this.input.setDraggable(shark);
-            this.input.dragDistanceThreshold = 16;
-            this.input.on('drag', function (pointer, gameObject, dragX, dragY) {
-                gameObject.x = dragX;
-                gameObject.y = dragY;
-            });
-            //create bubble pop animation
-            //var popAnim = new Animation(this, bubble, 'pop')
+            shark = game.add.sprite(100, 200, 'shark');
+            shark.inputEnabled = 'true';
+            shark.input.enableDrag(true);
 
-            //this.physics.overlap(shark, bubble, collisionHandler, null, this);
+            game.physics.enable(shark, Phaser.Physics.ARCADE);
+            //change the collision box to not be so weird
+            //only the head of the shark will pop bubbles
+            shark.body.setSize(66, 55, 162, 3);
             
         }
 
         function update() {
-            if (checkOverlap(shark, bubble)) {
-                //console.log("sprites overlapping")
-            }
-            else {
-                //console.log("sprites not overlapping")
+            for (let i in bubbles) {
+                game.physics.arcade.collide(shark, bubbles[i], popHandler, null, this);
             }
         }
 
-        function checkOverlap(spriteA, spriteB) {
+        function getBubbleScale (yPos) {
+            return yPos/768;
+        }
 
-            var boundsA = spriteA.getBounds();
-            var boundsB = spriteB.getBounds();
-            console.log(boundsA);
-            console.log(boundsB);
+        function getLetterScale (yPos) {
+            return yPos/300;
+        }
 
-            return Phaser.Rectangle.intersects(boundsA, boundsB);
+        function popHandler (shark, bubble) {
+            //only pop the bubble if it's the right letter
+            if (bubble.letter === targetLetter) {
+                clearBubbles(1000);
+                bubble.animations.play('pop', 10, false, true);
+                console.log(bubble.letter, bubble.myX, bubble.myY);
+                console.log(bubble.x, bubble.y);
+                for (let i in bubbles) { 
+                    if ( bubbles[i] === bubble) {
+                        bubbles.splice(i, 1); 
+                    }
+                }
+            } else {
+                //try again, don't pop bubble
+            }
+            
+        }
 
+        //generates 5 bubbles with the specified letters.
+        //the FIRST letter in the array is the TARGET letter
+        //the last parameter is the optional height of the target ("high" or "low")
+        //useful for if the target bubble needs to be high or low
+        //don't place bubbles above y = 400 with x > 940
+        function generate5Bubbles(letterArray, yHeight = "none") {
+            //min y = 100
+            //max y = 500
+            //max x = 1100
+            //min x = 450
+            if (!letterArray || letterArray.length < 5) {
+                throw "Error: Array length under 5 given to generate5Bubbles!";
+                return;
+            }
+            let targY = -1;
+            let ys = [];
+            if (yHeight === "none") {
+                ys = [100, 200, 300, 400, 500];
+            } else if (yHeight === "high") {
+                //make the target the only high bubble
+                targY = 100;
+                ys = [100, 300, 350, 400, 500];
+            } else {
+                //make the target the only low bubble
+                targY = 500;
+                ys = [500, 100, 150, 200, 250];
+            }
+            if (targY === -1) {
+                targY = rand(1, 6) * 100;
+            }
+            //shuffles the array and makes sure the target Y is the 0th index
+            ys = swapToFront(targY, shuffle(ys));
+            let xs = [];
+            for (let i = 0; i < 5; i++) {
+                xs.push(rand(450, 1100));
+            }
+            for (let i = 0; i < 5; i++) {
+                bubbles.push(makeBubble(xs[i], ys[i], letterArray[i]));
+            }
+
+        }
+
+        function makeBubble(x, y, letterPicName) {
+            let cScale = getLetterScale(y);
+            let bScale = getBubbleScale(y);
+            let bubble = game.add.sprite(x, y, 'bubblePop');
+            bubble.inputEnabled = 'true';
+            bubble.animations.add('pop');
+            bubble.scale.setTo(bScale);
+            bubble.myX = x;
+            bubble.myY = y;
+            bubble.input.enableDrag(true);
+            bubble.letter = letterPicName;
+            let child = bubble.addChild(game.make.sprite(197 - 70, 190 - 80, letterPicName));
+            child.scale.setTo(1 / bScale * cScale);
+            game.physics.enable(bubble, Phaser.Physics.ARCADE);
+            return bubble;
+        }
+
+        function clearBubbles(delay) {
+            setTimeout(function() {
+            for (i in bubbles) {
+                bubbles[i].animations.play('pop', 10, false, true);
+            }
+            bubbles = [];
+            }, delay)
+        }
+
+        //exclusive random number [num1, num2)
+        function rand(num1, num2) {
+            return Math.floor(Math.random() * (num2 - num1)) + num1;  
+        }
+        function shuffle(array) {
+            var currentIndex = array.length, temporaryValue, randomIndex;
+
+            // While there remain elements to shuffle...
+            while (0 !== currentIndex) {
+
+                // Pick a remaining element...
+                randomIndex = Math.floor(Math.random() * currentIndex);
+                currentIndex -= 1;
+
+                // And swap it with the current element.
+                temporaryValue = array[currentIndex];
+                array[currentIndex] = array[randomIndex];
+                array[randomIndex] = temporaryValue;
+            }
+
+            return array;
+        }
+        //swaps the input number to the front of the array
+        function swapToFront(num, array) {
+            for (let i in array) {
+                if (array[i] === num) {
+                    let temp = array[0];
+                    array[0] = array[i];
+                    array[i] = temp;
+                }
+            }
+            return array;
         }
     </script>
 </body>
