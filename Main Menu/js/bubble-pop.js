@@ -1,6 +1,8 @@
 DoMi.bubblePop = function (game) {};
 
-var homeBtn, freeplayBtn, playlistBtn, musicBtn, continueBtn;
+var width = 1366;
+var height = 768;
+var homeBtn, freeplayBtn, playlistBtn, musicBtn, continueBtn, homeBtn2, noteFriend;
 var levelFinished;
 var volume;
 var shark;
@@ -45,7 +47,13 @@ DoMi.bubblePop.prototype = {
             game.load.image('e', 'images/bubble-pop/e-lowercase.png');
             game.load.image('great-job-title', 'images/bubble-pop/great-job.png');
             game.load.image('continue', 'images/bubble-pop/continue.png');
+            game.load.image('note-friend', 'images/bubble-pop/wholenote-friend.png');
+            game.load.image('homeBtn2', 'icons/home-bigger.png');
+            game.load.image('click-me', 'images/bubble-pop/click-me.png');
+            game.load.image('for-help', 'images/bubble-pop/for-help.png');
+
             game.load.spritesheet('bubblePop', 'images/bubble-pop/short-pop-sheet.png', 394, 380);
+            
             game.load.audio('longTone1', 'audio/bubble-pop/long-tone1.mp3'); //low
             game.load.audio('longTone2', 'audio/bubble-pop/long-tone2.mp3');
             game.load.audio('longTone3', 'audio/bubble-pop/long-tone3.mp3');
@@ -106,6 +114,9 @@ DoMi.bubblePop.prototype = {
                 musicOff.onInputOut.add(out, this);
             }
 
+            noteFriend = game.add.button(100 - 51, 500 - 30, 'note-friend', actionClickFriend, this);
+            game.add.image(100 - 62, 450, 'click-me');
+            game.add.image(100 - 60, 600, 'for-help');
 
             //Set shark and make draggable
             shark = game.add.sprite(100, 200, 'shark');
@@ -118,50 +129,7 @@ DoMi.bubblePop.prototype = {
             shark.body.setSize(66, 55, 162, 3);
 
             loadNextLesson();
-            console.log(Phaser);
             //showExitScreen();
-
-            //buttons navigation
-            function actionOnClick1() {
-                game.state.start('mainMenu');
-            }
-
-            function actionOnClick2() {
-
-                game.state.start('freePlay');
-            }
-
-            function actionOnClick3() {
-
-            }
-
-            function actionOnClick4(event) {
-                if (event.key == 'musicOn') {
-                    musicOn.destroy();
-                    musicOff = game.add.button(1250, 40, 'musicOff', actionOnClick4, this);
-                    musicOff.alpha = 0.85;
-                    musicOff.onInputOver.add(over, this);
-                    musicOff.onInputOut.add(out, this);
-                    BGM.pause();
-                } else if (event.key == 'musicOff') {
-                    musicOff.destroy();
-                    musicOn = game.add.button(1250, 40, 'musicOn', actionOnClick4, this);
-                    musicOn.alpha = 0.85;
-                    musicOn.onInputOver.add(over, this);
-                    musicOn.onInputOut.add(out, this);
-                    BGM.resume();
-                } else if (event.key == 'selectorRight' || event.key == 'selectorLeft') {
-                    if (isLong) {
-                        phoneme.destroy()
-                        phoneme = game.add.image(530, 518, 'shortA');
-                        isLong = false;
-                    } else {
-                        phoneme.destroy();
-                        phoneme = game.add.image(530, 518, 'longA');
-                        isLong = true;
-                    }
-                }
-            }
 
         },
 
@@ -263,7 +231,6 @@ DoMi.bubblePop.prototype = {
             bubble.scale.setTo(bScale);
             bubble.myX = x;
             bubble.myY = y;
-            bubble.input.enableDrag(true);
             bubble.letter = letterPicName;
             //need to change to work with dynamically sized character
             let child = bubble.addChild(game.make.sprite(197 - 70, 190 - 80, letterPicName));
@@ -332,6 +299,9 @@ DoMi.bubblePop.prototype = {
         }
 
         function playLessonAudio(i) {
+            if (i === 6) {
+                return;
+            }
             let music = game.add.audio(instructions[i]);
             music.volume = (volume == undefined) ? 0.5 : volume;
             music.play();
@@ -359,6 +329,9 @@ DoMi.bubblePop.prototype = {
         //should populate the params for these function calls via csv in the future
         function loadNextLesson(delay) {
             setTimeout(function () {
+                if (game.state.current !== 'bubblePop') {
+                    return;
+                }
                 if (numRight === 0) {
                     generate5Bubbles(['A', 'B', 'C', 'D', 'E']);
                 } else if (numRight === 1) {
@@ -382,19 +355,66 @@ DoMi.bubblePop.prototype = {
         function showExitScreen() {
             let victory = game.add.sprite(1366 / 2 - 639 / 2, 768 / 2 - 100, 'great-job-title');
             let big = game.add.sprite(1366 / 2 - 540 / 2, 768 / 2 + 150, 'continue');
-            continueBtn = game.add.button(1366 / 2 - 90, 768 / 2, 'continueBtn', actionOnClick5, this);
-            continueBtn.alpha = 0.85;
-            continueBtn.onInputOver.add(over, this);
-            continueBtn.onInputOut.add(out, this);
+            homeBtn2 = game.add.button(width/2 - 100, height/2, 'homeBtn2', actionOnClick1, this);
+            homeBtn2.alpha = 0.85;
+            homeBtn2.onInputOver.add(over, this);
+            homeBtn2.onInputOut.add(out, this);
         }
  
+        //buttons navigation
+        function actionOnClick1() {
+            game.state.start('mainMenu');
+        }
+
+        function actionOnClick2() {
+
+            game.state.start('freePlay');
+        }
+
+        function actionOnClick3() {
+
+        }
+
+        function actionOnClick4(event) {
+            if (event.key == 'musicOn') {
+                musicOn.destroy();
+                musicOff = game.add.button(1250, 40, 'musicOff', actionOnClick4, this);
+                musicOff.alpha = 0.85;
+                musicOff.onInputOver.add(over, this);
+                musicOff.onInputOut.add(out, this);
+                BGM.pause();
+            } else if (event.key == 'musicOff') {
+                musicOff.destroy();
+                musicOn = game.add.button(1250, 40, 'musicOn', actionOnClick4, this);
+                musicOn.alpha = 0.85;
+                musicOn.onInputOver.add(over, this);
+                musicOn.onInputOut.add(out, this);
+                BGM.resume();
+            } else if (event.key == 'selectorRight' || event.key == 'selectorLeft') {
+                if (isLong) {
+                    phoneme.destroy()
+                    phoneme = game.add.image(530, 518, 'shortA');
+                    isLong = false;
+                } else {
+                    phoneme.destroy();
+                    phoneme = game.add.image(530, 518, 'longA');
+                    isLong = true;
+                }
+            }
+        }
+
         function actionOnClick5() {
             console.log("To Be Continued...")
         }
 
+        function actionClickFriend() {
+            playLessonAudio(numRight);
+        }
 
         //Set button hover and click actions
         function over(event) {
+            console.log(event);
+            console.log(window);
             window[event.key].alpha = 1;
             document.body.style.cursor = "pointer";
         }
