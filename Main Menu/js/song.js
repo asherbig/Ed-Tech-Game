@@ -145,7 +145,7 @@ DoMi.song.prototype = {
                 music.pause();
             }
             music.onStop.addOnce(function() {
-                
+                BGM.resume();
             });
         }
 
