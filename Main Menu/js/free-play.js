@@ -7,16 +7,15 @@ DoMi.freePlay.prototype = {
 
     preload: function () {
         game.load.image('homeBtn', 'icons/home.png');
-        game.load.image('freeplayBtn', 'icons/freeplay.png');
+        game.load.image('storyBtn', 'icons/story.png');
         game.load.image('playlistBtn', 'icons/playlist.png');
         game.load.image('musicOn', 'icons/toggle-on.png');
         game.load.image('musicOff', 'icons/toggle-off.png');
-        game.load.image('continueBtn', 'icons/continue.png');
         game.load.image('freeplayBG', 'images/free-play/freeplay-BG.png');
         game.load.image('slider', 'images/free-play/slider-base.png');
-        game.load.image('wholeNote', 'images/free-play/drag-wholenote.png');
-        game.load.image('halfNote', 'images/free-play/drag-halfnote.png');
-        game.load.image('quarterNote', 'images/free-play/drag-quarternote.png');
+        game.load.image('wholeNote', 'images/free-play/wholenote-friend.png');
+        game.load.image('halfNote', 'images/free-play/halfnote-friend.png');
+        game.load.image('quarterNote', 'images/free-play/quarternote-friend.png');
         game.load.image('shortA', 'images/free-play/short-a.png');
         game.load.image('longA', 'images/free-play/long-a.png');
         game.load.image('selectorLeft', 'images/free-play/selector-left.png');
@@ -41,7 +40,6 @@ DoMi.freePlay.prototype = {
     create: function () {
         //Add background and slider base
         game.add.image(0, -1, 'freeplayBG');
-        game.add.image(370, 646, 'slider');
 
         //Instantiate buttons
         homeBtn = game.add.button(48, 30, 'homeBtn', actionOnClick1, this);
@@ -49,10 +47,10 @@ DoMi.freePlay.prototype = {
         homeBtn.onInputOver.add(over, this);
         homeBtn.onInputOut.add(out, this);
 
-        freeplayBtn = game.add.button(123, 30, 'freeplayBtn', actionOnClick2, this);
-        freeplayBtn.alpha = 0.85;
-        freeplayBtn.onInputOver.add(over, this);
-        freeplayBtn.onInputOut.add(out, this);
+        storyBtn = game.add.button(123, 30, 'storyBtn', actionOnClick2, this);
+        storyBtn.alpha = 0.85;
+        storyBtn.onInputOver.add(over, this);
+        storyBtn.onInputOut.add(out, this);
 
         playlistBtn = game.add.button(198, 30, 'playlistBtn', actionOnClick3, this);
         playlistBtn.alpha = 0.85;
@@ -70,12 +68,6 @@ DoMi.freePlay.prototype = {
         musicOff.onInputOver.add(over, this);
         musicOff.onInputOut.add(out, this); 
         }
-        
-
-        continueBtn = game.add.button(1179, 587, 'continueBtn', actionOnClick5, this);
-        continueBtn.alpha = 0.85;
-        continueBtn.onInputOver.add(over, this);
-        continueBtn.onInputOut.add(out, this);
 
         //Add phoneme selector
         var isLong = true;
@@ -86,9 +78,9 @@ DoMi.freePlay.prototype = {
         selectorLeft.onInputOut.add(out, this);
 
         selectorRight = game.add.button(615, 550, 'selectorRight', actionOnClick4, this);
-        selectorLeft.alpha = 0.85;
-        selectorLeft.onInputOver.add(over, this);
-        selectorLeft.onInputOut.add(out, this);
+        selectorRight.alpha = 0.85;
+        selectorRight.onInputOver.add(over, this);
+        selectorRight.onInputOut.add(out, this);
 
 
         //Set button hover and click actions
@@ -143,24 +135,20 @@ DoMi.freePlay.prototype = {
             }
         }
 
-        function actionOnClick5() {
-
-        }
-
         // Set notes as draggable
-        wholeNote = game.add.sprite(57, 162, 'wholeNote');
+        wholeNote = game.add.sprite(57, 132, 'wholeNote');
         wholeNote.inputEnabled = 'true';
         wholeNote.input.enableDrag(true);
         wholeNote.events.onInputDown.add(inputDown);
         wholeNote.events.onInputUp.add(inputUp);
 
-        halfNote = game.add.sprite(68, 250, 'halfNote');
+        halfNote = game.add.sprite(38, 233, 'halfNote');
         halfNote.inputEnabled = 'true';
         halfNote.input.enableDrag(true);
         halfNote.events.onInputDown.add(inputDown);
         halfNote.events.onInputUp.add(inputUp);
 
-        quarterNote = game.add.sprite(64, 399, 'quarterNote');
+        quarterNote = game.add.sprite(38, 386, 'quarterNote');
         quarterNote.inputEnabled = 'true';
         quarterNote.input.enableDrag(true);
         quarterNote.events.onInputDown.add(inputDown);
@@ -172,9 +160,9 @@ DoMi.freePlay.prototype = {
         var quarterCount = 0;
 
         function inputDown(event) {
-            if (event.key == 'wholeNote') {
+            if (event.previousPosition.x == 57 && event.previousPosition.y == 132) {
                 var string = event.key.replace(/[0-9]/g, '');
-                window[string + wholeCount] = game.add.sprite(57, 162, "wholeNote");
+                window[string + wholeCount] = game.add.sprite(57, 132, "wholeNote");
                 if (volume != undefined) {
                     window[string + wholeCount].scale.setTo(volume + 0.5);
                 }
@@ -183,9 +171,9 @@ DoMi.freePlay.prototype = {
                 window[string + wholeCount].events.onInputDown.add(inputDown);
                 window[string + wholeCount].events.onInputUp.add(inputUp);
                 wholeCount++;
-            } else if (event.key == 'halfNote') {
+            } else if (event.previousPosition.x == 38 && event.previousPosition.y == 233) {
                 var string = event.key.replace(/[0-9]/g, '');
-                window[string + halfCount] = game.add.sprite(68, 250, 'halfNote');
+                window[string + halfCount] = game.add.sprite(38, 233, 'halfNote');
                 if (volume != undefined) {
                     window[string + halfCount].scale.setTo(volume + 0.5);
                 }
@@ -194,16 +182,16 @@ DoMi.freePlay.prototype = {
                 window[string + halfCount].events.onInputDown.add(inputDown);
                 window[string + halfCount].events.onInputUp.add(inputUp);
                 halfCount++;
-            } else {
+            } else if (event.previousPosition.x == 38 && event.previousPosition.y == 386) {
                 var string = event.key.replace(/[0-9]/g, '');
-                window[string + quarterCount] = game.add.sprite(64, 399, 'quarterNote');
+                window[string + quarterCount] = game.add.sprite(38, 386, 'quarterNote');
                 if (volume != undefined) {
                     window[string + quarterCount].scale.setTo(volume + 0.5);
                 }
                 window[string + quarterCount].inputEnabled = 'true';
                 window[string + quarterCount].input.enableDrag(true);
                 window[string + quarterCount].events.onInputDown.add(inputDown);
-                window[string + quarterCount].events.onInputUp.add(inputUp);
+                window[string + quarterCount].events.onInputUp.add(inputUp);      
                 quarterCount++;
             }
         }
@@ -245,6 +233,7 @@ DoMi.freePlay.prototype = {
         }
 
         //Instantiate slider
+        game.add.image(370, 646, 'slider');
         slickUI.add(panel = new SlickUI.Element.Panel(370, 570, 722, 70));
         panel.add(slider = new SlickUI.Element.Slider(33, 90, panel.width - 68));
 
@@ -274,6 +263,15 @@ DoMi.freePlay.prototype = {
             volume = value;
         });
 
+        //Bring elements aside from music notes to top
+        game.world.bringToTop(selectorLeft);
+        game.world.bringToTop(selectorRight);
+        game.world.bringToTop(phoneme);
+        game.world.bringToTop(homeBtn);
+        game.world.bringToTop(storyBtn);
+        game.world.bringToTop(playlistBtn);
+        game.world.bringToTop(musicOn);
+        game.world.bringToTop(musicOff);
     }
 
 }
