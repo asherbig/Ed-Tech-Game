@@ -28,16 +28,30 @@
 
     function preload ()
     {
-        game.load.image("shark-a","");
+        game.load.image("sharkA","images/shark-a.png");
+        game.load.image("sharkB","images/shark-b.png");
+        game.load.image("sharkC","images/shark-c.png");
+        game.load.image("bg", "images/Menu-BG.png");
+
     }
 
+    var sharkSprite;
     function create ()
     {
+        sharkSprite = game.add.sprite(game.world.centerX, game.world.centerY, 'shark-a');
+        game.physics.enable(sprite, Phaser.Physics.ARCADE);
     }
 
     function update()
     {
+            //  400 is the speed it will move towards the mouse
+            game.physics.arcade.moveToPointer(sprite, 500);
 
+            //  if it's overlapping the mouse, don't move any more
+            if (Phaser.Rectangle.contains(sprite.body, game.input.x, game.input.y))
+            {
+                sprite.body.velocity.setTo(0, 0);
+            }
     }
 }
 
