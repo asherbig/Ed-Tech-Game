@@ -27,7 +27,7 @@
 
         function preload () {
             game.load.image('homeBtn', 'icons/home.png');
-            game.load.image('freeplayBtn', 'icons/freeplay.png');
+            game.load.image('storyBtn', 'icons/story.png');
             game.load.image('playlistBtn', 'icons/playlist.png');
             game.load.image('musicOn', 'icons/toggle-on.png');
             game.load.image('musicOff', 'icons/toggle-off.png');
@@ -55,7 +55,7 @@
             slickUI = game.plugins.add(Phaser.Plugin.SlickUI);
             slickUI.load('assets/slick-ui-master/themes/custom-theme/custom.json');
         }
-        var homeBtn, freeplayBtn, playlistBtn, musicOn, musicOff, continueBtn, wholeNote, panel, slider, volume, longA, shortA;
+        var homeBtn, storyBtn, playlistBtn, musicOn, musicOff, continueBtn, wholeNote, panel, slider, volume, longA, shortA;
 
         function create() {
             //Add background and slider base
@@ -68,10 +68,10 @@
             homeBtn.onInputOver.add(over, this);
             homeBtn.onInputOut.add(out, this);
 
-            freeplayBtn = game.add.button(123, 30, 'freeplayBtn', actionOnClick, this);
-            freeplayBtn.alpha = 0.85;
-            freeplayBtn.onInputOver.add(over, this);
-            freeplayBtn.onInputOut.add(out, this);
+            storyBtn = game.add.button(123, 30, 'storyBtn', actionOnClick, this);
+            storyBtn.alpha = 0.85;
+            storyBtn.onInputOver.add(over, this);
+            storyBtn.onInputOut.add(out, this);
 
             playlistBtn = game.add.button(198, 30, 'playlistBtn', actionOnClick, this);
             playlistBtn.alpha = 0.85;
