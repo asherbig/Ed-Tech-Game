@@ -14,9 +14,9 @@ DoMi.freePlay.prototype = {
         game.load.image('continueBtn', 'icons/continue.png');
         game.load.image('freeplayBG', 'images/free-play/freeplay-BG.png');
         game.load.image('slider', 'images/free-play/slider-base.png');
-        game.load.image('wholeNote', 'images/free-play/drag-wholenote.png');
-        game.load.image('halfNote', 'images/free-play/drag-halfnote.png');
-        game.load.image('quarterNote', 'images/free-play/drag-quarternote.png');
+        game.load.image('wholeNote', 'images/wholenote-friend.png');
+        game.load.image('halfNote', 'images/halfnote-friend.png');
+        game.load.image('quarterNote', 'images/quarternote-friend.png');
         game.load.image('shortA', 'images/free-play/short-a.png');
         game.load.image('longA', 'images/free-play/long-a.png');
         game.load.image('selectorLeft', 'images/free-play/selector-left.png');
@@ -148,19 +148,19 @@ DoMi.freePlay.prototype = {
         }
 
         // Set notes as draggable
-        wholeNote = game.add.sprite(57, 162, 'wholeNote');
+        wholeNote = game.add.sprite(57, 132, 'wholeNote');
         wholeNote.inputEnabled = 'true';
         wholeNote.input.enableDrag(true);
         wholeNote.events.onInputDown.add(inputDown);
         wholeNote.events.onInputUp.add(inputUp);
 
-        halfNote = game.add.sprite(68, 250, 'halfNote');
+        halfNote = game.add.sprite(38, 233, 'halfNote');
         halfNote.inputEnabled = 'true';
         halfNote.input.enableDrag(true);
         halfNote.events.onInputDown.add(inputDown);
         halfNote.events.onInputUp.add(inputUp);
 
-        quarterNote = game.add.sprite(64, 399, 'quarterNote');
+        quarterNote = game.add.sprite(38, 386, 'quarterNote');
         quarterNote.inputEnabled = 'true';
         quarterNote.input.enableDrag(true);
         quarterNote.events.onInputDown.add(inputDown);
@@ -172,9 +172,9 @@ DoMi.freePlay.prototype = {
         var quarterCount = 0;
 
         function inputDown(event) {
-            if (event.previousPosition.x == 57 && event.previousPosition.y == 162) {
+            if (event.previousPosition.x == 57 && event.previousPosition.y == 132) {
                 var string = event.key.replace(/[0-9]/g, '');
-                window[string + wholeCount] = game.add.sprite(57, 162, "wholeNote");
+                window[string + wholeCount] = game.add.sprite(57, 132, "wholeNote");
                 if (volume != undefined) {
                     window[string + wholeCount].scale.setTo(volume + 0.5);
                 }
@@ -182,11 +182,10 @@ DoMi.freePlay.prototype = {
                 window[string + wholeCount].input.enableDrag(true);
                 window[string + wholeCount].events.onInputDown.add(inputDown);
                 window[string + wholeCount].events.onInputUp.add(inputUp);
-                console.log(window[string + wholeCount]);
                 wholeCount++;
-            } else if (event.previousPosition.x == 68 && event.previousPosition.y == 250) {
+            } else if (event.previousPosition.x == 38 && event.previousPosition.y == 233) {
                 var string = event.key.replace(/[0-9]/g, '');
-                window[string + halfCount] = game.add.sprite(68, 250, 'halfNote');
+                window[string + halfCount] = game.add.sprite(38, 233, 'halfNote');
                 if (volume != undefined) {
                     window[string + halfCount].scale.setTo(volume + 0.5);
                 }
@@ -195,9 +194,9 @@ DoMi.freePlay.prototype = {
                 window[string + halfCount].events.onInputDown.add(inputDown);
                 window[string + halfCount].events.onInputUp.add(inputUp);
                 halfCount++;
-            } else if (event.previousPosition.x == 64 && event.previousPosition.y == 399) {
+            } else if (event.previousPosition.x == 38 && event.previousPosition.y == 386) {
                 var string = event.key.replace(/[0-9]/g, '');
-                window[string + quarterCount] = game.add.sprite(64, 399, 'quarterNote');
+                window[string + quarterCount] = game.add.sprite(38, 386, 'quarterNote');
                 if (volume != undefined) {
                     window[string + quarterCount].scale.setTo(volume + 0.5);
                 }
