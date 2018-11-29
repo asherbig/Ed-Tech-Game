@@ -24,7 +24,7 @@ DoMi.intro.prototype = {
         game.load.image('bubble1', 'images/intro/bubble1.png');
         game.load.image('bubble2', 'images/intro/bubble2.png');
         game.load.image('bubble3', 'images/intro/bubble3.png');
-        game.load.image('note-friend', 'images/intro/wholenote-friend.png');
+        game.load.image('wholenote-friend', 'images/intro/wholenote-friend.png');
 
         // Letter images
         game.load.image('capA', 'images/intro/A.png');
@@ -71,8 +71,20 @@ DoMi.intro.prototype = {
         continueBtn.onInputOver.add(over, this);
         continueBtn.onInputOut.add(out, this);
 
+        if (BGM.isPlaying === true) {
+            musicOn = game.add.button(1250, 40, 'musicOn', actionOnClick4, this);
+            musicOn.alpha = 0.85;
+            musicOn.onInputOver.add(over, this);
+            musicOn.onInputOut.add(out, this);
+        } else {
+           musicOff = game.add.button(1250, 40, 'musicOff', actionOnClick4, this);
+            musicOff.alpha = 0.85;
+            musicOff.onInputOver.add(over, this);
+            musicOff.onInputOut.add(out, this); 
+        }
+
         // instantiate characters
-        noteFriend = game.add.sprite(100, 200,'note-friend');
+        noteFriend = game.add.sprite(100, 200,'wholenote-friend');
 /*
         // Make shark character
         shark = [ game.add.sprite(0, 0, 'sharkA'),
@@ -157,7 +169,7 @@ DoMi.intro.prototype = {
 
 
         // Initialize Letter A
-        letterA = [game.add.sprite(800,450,'capA'), game.add.sprite(800,450,'shortA'),
+        letterA = [game.add.sprite(740, 230, 'capA'), game.add.sprite(800,450,'shortA'),
             game.add.sprite(800,450,'longA')];
         letterA[1].visible = false;
         letterA[2].visible = false;
