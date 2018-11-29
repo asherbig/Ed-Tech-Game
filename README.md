@@ -12,7 +12,7 @@ Navigate to your Ed-Tech-Game repository and start up a python web server
 ```sh
 $ python -m SimpleHTTPServer
 ```
-If that does not work try:
+or
 ```sh
 $ python -m http.server
 ```
