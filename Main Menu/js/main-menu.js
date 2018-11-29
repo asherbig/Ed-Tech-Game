@@ -41,7 +41,7 @@ DoMi.mainMenu.prototype = {
 
         function actionOnClick1() {
             document.body.style.cursor = "default";
-            game.state.start("story-mode-freePlay");
+            game.state.start("intro");
         }
 
         Btn2 = game.add.button(466, 360, 'freePlay', actionOnClick2, this);

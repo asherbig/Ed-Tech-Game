@@ -410,7 +410,7 @@ DoMi.freePlay.prototype = {
 
         function actionOnClick2() {
             document.body.style.cursor = "default";
-            game.state.start('story-mode-freePlay');
+            game.state.start('intro');
         }
 
         function actionOnClick3() {
