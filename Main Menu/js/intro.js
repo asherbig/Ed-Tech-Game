@@ -83,28 +83,8 @@ DoMi.intro.prototype = {
             musicOff.onInputOut.add(out, this); 
         }
 
-        // instantiate characters
+        //Instantiate whole note friend
         noteFriend = game.add.sprite(100, 200,'wholenote-friend');
-/*
-        // Make shark character
-        shark = [ game.add.sprite(0, 0, 'sharkA'),
-            game.add.sprite(0, 0, 'sharkB'),
-            game.add.sprite(0, 0, 'sharkC')];
-
-        shark[2].visible = false;
-        shark[0].visible = false;
-        shark[1].visible = true;
-
-
-
-        // Make bubble stages
-        bubble = [game.add.sprite(0, 0, 'bubble1'),
-        game.add.sprite(0, 0, 'bubble2'),
-        game.add.sprite(0, 0, 'bubble3')];
-
-        bubble[1].visible = false;
-        bubble[2].visible = false;
-*/
 
         // Set button hover and click actions
         function over(event) {
@@ -169,8 +149,8 @@ DoMi.intro.prototype = {
 
 
         // Initialize Letter A
-        letterA = [game.add.sprite(740, 230, 'capA'), game.add.sprite(800,450,'shortA'),
-            game.add.sprite(800,450,'longA')];
+        letterA = [game.add.sprite(740, 230, 'capA'), game.add.sprite(740, 230, 'shortA'),
+            game.add.sprite(740, 230,'longA')];
         letterA[1].visible = false;
         letterA[2].visible = false;
         game.physics.enable(letterA[0], Phaser.Physics.ARCADE);
