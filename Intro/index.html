@@ -27,7 +27,10 @@
 
     function preload ()
     {
+        // Background
         game.load.image('menuBG', 'images/Intro-BG.png');
+
+        // Character images
         game.load.image('sharkA', 'images/shark-a.png');
         game.load.image('sharkB', 'images/shark-b.png');
         game.load.image('sharkC', 'images/shark-c.png');
@@ -35,10 +38,25 @@
         game.load.image('bubble2', 'images/bubble2.png');
         game.load.image('bubble3', 'images/bubble3.png');
 
+        // Introduction Audio
+        //game.load.audio('lesson1LetterA','audio/.mp3');
+        //game.load.audio('lesson1LetterA','audio/.mp3');
+        game.load.audio('lesson1LetterA','audio/This is the letter A.mp3');
+        game.load.audio('lesson1TwoSounds','audio/A can_2 sounds.mp3');
+        game.load.audio('lesson1LetterALong','audio/Long A sound lesson.mp3');
+        game.load.audio('lesson1LetterALongEx','audio/Long A Lesson_Ape.mp3');
+        game.load.audio('lesson1LetterAShort','audio/Short a sound lesson.mp3');
+        game.load.audio('lesson1LetterAShortEx','audio/Short a Lesson_apple.mp3');
+        game.load.audio('lesson1LetterAlistenLow','audio/Lesson_Getting Lower.mp3');
+        game.load.audio('lesson1LetterAGoingLow','audio/Lets Listen Lower.mp3');
+        game.load.audio('lesson1LetterAListenHigh','audio/Lesson_Getting Higher.mp3');
+        game.load.audio('lesson1LetterAGoingHigh','audio/Lets Listen Higher.mp3');
+
     }
 
     var shark;
     var bubble;
+    var lessonAudio;
 
     function create ()
     {
@@ -62,6 +80,46 @@
 
 
         // need to time things for the bubble pop
+
+        /*
+        game.load.audio('lesson1LetterA','audio/This is the letter A.mp3');
+        game.load.audio('lesson1BigA','audio/A can_2 sounds.mp3');
+        game.load.audio('lesson1LittleA','audio/Long A sound lesson.mp3');
+        game.load.audio('lesson1TwoSounds','audio/A can_2 sounds.mp3');
+        game.load.audio('lesson1LetterALong','audio/Long A sound lesson.mp3');
+        game.load.audio('lesson1LetterALongEx','audio/Long A Lesson_Ape.mp3');
+        game.load.audio('lesson1LetterAShort','audio/Short a sound lesson.mp3');
+        game.load.audio('lesson1LetterAShortEx','audio/Short a Lesson_apple.mp3');
+        game.load.audio('lesson1LetterAlistenLow','audio/Lesson_Getting Lower.mp3');
+        game.load.audio('lesson1LetterAGoingLow','audio/Lets Listen Lower.mp3');
+        game.load.audio('lesson1LetterAListenHigh','audio/Lesson_Getting Higher.mp3');
+        game.load.audio('lesson1LetterAGoingHigh','audio/Lets Listen Higher.mp3');
+        */
+        lessonAudio = [game.add.audio('lesson1LetterA'),
+            game.add.audio('lesson1TwoSounds'),
+            game.add.audio('lesson1LetterALong'),
+            game.add.audio('lesson1LetterALongEx'),
+            game.add.audio('lesson1LetterAShort'),
+            game.add.audio('lesson1LetterAShortEx'),
+            game.add.audio('lesson1LetterAlistenLow'),
+            game.add.audio('lesson1LetterAGoingLow'),
+            game.add.audio('lesson1LetterAListenHigh'),
+            game.add.audio('lesson1LetterAGoingHigh')
+            ];
+
+
+         //soundexplosion.onStop.addOnce(function() { soundlose.play(); }, this);
+         for (var i = 0; i < lessonAudio.length - 2; i++) {
+            lessonAudio[i].onStop.addOnce(function() {lessonAudio[i + 1].play();}, this);
+        }
+        lessonAudio[0].play();
+
+        /*
+        lessonAudio.play();
+        for (var i = 0; i < lessonAudio.length; i++) {
+            lessonAudio[i].play();
+        }
+        */
     }
 
     </script>
