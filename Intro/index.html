@@ -22,6 +22,7 @@
 </div>
 <script>
 
+    var homeBtn, freeplayBtn, playlistBtn, continueBtn, noteFriend;
 
     var game = new Phaser.Game(1366, 768, Phaser.AUTO, 'canvas', { preload: preload, create: create });
 
@@ -30,6 +31,14 @@
         // Background
         game.load.image('menuBG', 'images/Intro-BG.png');
 
+        // Button images
+        game.load.image('homeBtn', 'icons/home.png');
+        game.load.image('freeplayBtn', 'icons/freeplay.png');
+        game.load.image('playlistBtn', 'icons/playlist.png');
+        game.load.image('musicOn', 'icons/toggle-on.png');
+        game.load.image('musicOff', 'icons/toggle-off.png');
+        game.load.image('continueBtn', 'icons/continue.png');
+
         // Character images
         game.load.image('sharkA', 'images/shark-a.png');
         game.load.image('sharkB', 'images/shark-b.png');
@@ -37,11 +46,12 @@
         game.load.image('bubble1', 'images/bubble1.png');
         game.load.image('bubble2', 'images/bubble2.png');
         game.load.image('bubble3', 'images/bubble3.png');
+        game.load.image('note-friend', 'images/notefriendNoBubble.png');
 
         // Introduction Audio
-        //game.load.audio('lesson1LetterA','audio/.mp3');
-        //game.load.audio('lesson1LetterA','audio/.mp3');
         game.load.audio('lesson1LetterA','audio/This is the letter A.mp3');
+        game.load.audio('lesson1BigA','audio/This is a Big A.mp3');
+        game.load.audio('lesson1LittleA','audio/This is Little A.mp3');
         game.load.audio('lesson1TwoSounds','audio/A can_2 sounds.mp3');
         game.load.audio('lesson1LetterALong','audio/Long A sound lesson.mp3');
         game.load.audio('lesson1LetterALongEx','audio/Long A Lesson_Ape.mp3');
@@ -60,42 +70,83 @@
 
     function create ()
     {
+
+        // Add groups for drawing layers
+        var backLayer = game.add.group();
+        var midLayer = game.add.group();
+        var frontLayer = game.add.group();
+
         // Background of level
         game.add.image(0, 0, 'menuBG');
 
+        // Instantiate buttons
+        homeBtn = game.add.button(48, 30, 'homeBtn', actionOnClick1, this);
+        homeBtn.alpha = 0.85;
+        homeBtn.onInputOver.add(over, this);
+        homeBtn.onInputOut.add(out, this);
+        frontLayer.add(homeBtn);
+
+        freeplayBtn = game.add.button(123, 30, 'freeplayBtn', actionOnClick2, this);
+        freeplayBtn.alpha = 0.85;
+        freeplayBtn.onInputOver.add(over, this);
+        freeplayBtn.onInputOut.add(out, this);
+        frontLayer.add(freeplayBtn);
+
+        playlistBtn = game.add.button(198, 30, 'playlistBtn', actionOnClick3, this);
+        playlistBtn.alpha = 0.85;
+        playlistBtn.onInputOver.add(over, this);
+        playlistBtn.onInputOut.add(out, this);
+
+        // instantiate characters
+        noteFriend = game.add.sprite(270, 500,'note-friend');
+
+        // Set button hover and click actions
+        function over(event) {
+            window[event.key].alpha = 1;
+            document.body.style.cursor = "pointer";
+        }
+
+        function out(event) {
+            window[event.key].alpha = 0.85;
+            document.body.style.cursor = "default";
+        }
+
+        function actionOnClick1() {
+            document.body.style.cursor = "default";
+            game.state.start('mainMenu')
+        }
+
+        function actionOnClick2() {
+            document.body.style.cursor = "default";
+            game.state.start('story-mode-freePlay');
+        }
+
+        function actionOnClick3() {
+            document.body.style.cursor = "default";
+        }
+/*
         // Make shark character
         shark = [ game.add.sprite(0, 0, 'sharkA'),
             game.add.sprite(0, 0, 'sharkB'),
             game.add.sprite(0, 0, 'sharkC')];
 
         shark[2].visible = false;
-        shark[1].visible = false;
+        shark[0].visible = false;
+        shark[1].visible = true;
 
         // Make bubble stages
         bubble = [game.add.sprite(0, 0, 'bubble1'),
         game.add.sprite(0, 0, 'bubble2'),
         game.add.sprite(0, 0, 'bubble3')];
 
-        // need to add alex's implementation of dragging
-
-
+        bubble[1].visible = false;
+        bubble[2].visible = false;
+*/
         // need to time things for the bubble pop
 
-        /*
-        game.load.audio('lesson1LetterA','audio/This is the letter A.mp3');
-        game.load.audio('lesson1BigA','audio/A can_2 sounds.mp3');
-        game.load.audio('lesson1LittleA','audio/Long A sound lesson.mp3');
-        game.load.audio('lesson1TwoSounds','audio/A can_2 sounds.mp3');
-        game.load.audio('lesson1LetterALong','audio/Long A sound lesson.mp3');
-        game.load.audio('lesson1LetterALongEx','audio/Long A Lesson_Ape.mp3');
-        game.load.audio('lesson1LetterAShort','audio/Short a sound lesson.mp3');
-        game.load.audio('lesson1LetterAShortEx','audio/Short a Lesson_apple.mp3');
-        game.load.audio('lesson1LetterAlistenLow','audio/Lesson_Getting Lower.mp3');
-        game.load.audio('lesson1LetterAGoingLow','audio/Lets Listen Lower.mp3');
-        game.load.audio('lesson1LetterAListenHigh','audio/Lesson_Getting Higher.mp3');
-        game.load.audio('lesson1LetterAGoingHigh','audio/Lets Listen Higher.mp3');
-        */
         lessonAudio = [game.add.audio('lesson1LetterA'),
+            game.add.audio('lesson1BigA'),
+            game.add.audio('lesson1LittleA'),
             game.add.audio('lesson1TwoSounds'),
             game.add.audio('lesson1LetterALong'),
             game.add.audio('lesson1LetterALongEx'),
@@ -107,19 +158,22 @@
             game.add.audio('lesson1LetterAGoingHigh')
             ];
 
+        // Sequentially play lesson clips
+        lessonAudio[0].onStop.addOnce(function() { lessonAudio[1].play(); }, this);
+        lessonAudio[1].onStop.addOnce(function() { lessonAudio[2].play(); }, this);
+        lessonAudio[2].onStop.addOnce(function() { lessonAudio[3].play(); }, this);
+        lessonAudio[3].onStop.addOnce(function() { lessonAudio[4].play(); }, this);
+        lessonAudio[4].onStop.addOnce(function() { lessonAudio[5].play(); }, this);
+        lessonAudio[5].onStop.addOnce(function() { lessonAudio[6].play(); }, this);
+        lessonAudio[6].onStop.addOnce(function() { lessonAudio[7].play(); }, this);
+        lessonAudio[7].onStop.addOnce(function() { lessonAudio[8].play(); }, this);
+        lessonAudio[8].onStop.addOnce(function() { lessonAudio[9].play(); }, this);
+        lessonAudio[9].onStop.addOnce(function() { lessonAudio[10].play(); }, this);
+        lessonAudio[10].onStop.addOnce(function() { lessonAudio[11].play(); }, this);
+        lessonAudio[11].onStop.addOnce(function() { lessonAudio[12].play(); }, this);
 
-         //soundexplosion.onStop.addOnce(function() { soundlose.play(); }, this);
-         for (var i = 0; i < lessonAudio.length - 2; i++) {
-            lessonAudio[i].onStop.addOnce(function() {lessonAudio[i + 1].play();}, this);
-        }
         lessonAudio[0].play();
 
-        /*
-        lessonAudio.play();
-        for (var i = 0; i < lessonAudio.length; i++) {
-            lessonAudio[i].play();
-        }
-        */
     }
 
     </script>
