@@ -48,6 +48,11 @@
         game.load.image('bubble3', 'images/bubble3.png');
         game.load.image('note-friend', 'images/notefriendNoBubble.png');
 
+        // Letter images
+        game.load.image('capA', 'images/A.png');
+        game.load.image('shortA', 'images/short-a.png');
+        game.load.image('longA', 'images/long-a.png');
+
         // Introduction Audio
         game.load.audio('lesson1LetterA','audio/This is the letter A.mp3');
         game.load.audio('lesson1BigA','audio/This is a Big A.mp3');
@@ -65,12 +70,13 @@
     }
 
     var shark;
+    var letterA;
     var bubble;
     var lessonAudio;
+    var timedEvent = 0;
 
     function create ()
     {
-
         // Add groups for drawing layers
         var backLayer = game.add.group();
         var midLayer = game.add.group();
@@ -98,7 +104,27 @@
         playlistBtn.onInputOut.add(out, this);
 
         // instantiate characters
-        noteFriend = game.add.sprite(270, 500,'note-friend');
+        noteFriend = game.add.sprite(270, 300,'note-friend');
+/*
+        // Make shark character
+        shark = [ game.add.sprite(0, 0, 'sharkA'),
+            game.add.sprite(0, 0, 'sharkB'),
+            game.add.sprite(0, 0, 'sharkC')];
+
+        shark[2].visible = false;
+        shark[0].visible = false;
+        shark[1].visible = true;
+
+
+
+        // Make bubble stages
+        bubble = [game.add.sprite(0, 0, 'bubble1'),
+        game.add.sprite(0, 0, 'bubble2'),
+        game.add.sprite(0, 0, 'bubble3')];
+
+        bubble[1].visible = false;
+        bubble[2].visible = false;
+*/
 
         // Set button hover and click actions
         function over(event) {
@@ -124,24 +150,7 @@
         function actionOnClick3() {
             document.body.style.cursor = "default";
         }
-/*
-        // Make shark character
-        shark = [ game.add.sprite(0, 0, 'sharkA'),
-            game.add.sprite(0, 0, 'sharkB'),
-            game.add.sprite(0, 0, 'sharkC')];
 
-        shark[2].visible = false;
-        shark[0].visible = false;
-        shark[1].visible = true;
-
-        // Make bubble stages
-        bubble = [game.add.sprite(0, 0, 'bubble1'),
-        game.add.sprite(0, 0, 'bubble2'),
-        game.add.sprite(0, 0, 'bubble3')];
-
-        bubble[1].visible = false;
-        bubble[2].visible = false;
-*/
         // need to time things for the bubble pop
 
         lessonAudio = [game.add.audio('lesson1LetterA'),
@@ -173,6 +182,61 @@
         lessonAudio[11].onStop.addOnce(function() { lessonAudio[12].play(); }, this);
 
         lessonAudio[0].play();
+
+
+        // Initialize Letter A
+        letterA = [game.add.sprite(800,450,'capA'), game.add.sprite(800,450,'shortA'),
+            game.add.sprite(800,450,'longA')];
+        letterA[1].visible = false;
+        letterA[2].visible = false;
+        game.physics.enable(letterA[0], Phaser.Physics.ARCADE);
+
+        // start timed sequences
+        game.time.events.add(16600,updateLetter,this);
+        game.time.events.add(28500,updateLetter,this);
+        game.time.events.add(69000,updateLetter,this);
+        game.time.events.add(110500,updateLetter,this);
+        game.time.events.add(132500,updateLetter,this);
+        game.time.events.add(159000,updateLetter,this);
+        game.time.events.add(162000,updateLetter,this);
+        game.time.events.add(189000,updateLetter,this);
+    }
+
+    function updateLetter(eventNum) {
+        console.log(timedEvent);
+        switch (timedEvent) {
+            case 0:
+                letterA[0].visible = false;
+                letterA[1].visible = true;
+                break;
+            case 1:
+                letterA[1].visible = false;
+                letterA[2].visible = true;
+                break;
+            case 2:
+                letterA[2].visible = false;
+                letterA[1].visible = true;
+                break;
+            case 3:
+                letterA[1].visible = false;
+                letterA[0].visible = true;
+                letterA[0].reset(800,150);
+                break;
+            case 4:
+                letterA[0].body.velocity.y = 15;
+                break;
+            case 5:
+                letterA[0].body.velocity.y = 0;
+                break;
+            case 6:
+                letterA[0].body.velocity.y = -15;
+                break;
+            case 7:
+                letterA[0].body.velocity.y = 0;
+                break;
+        }
+
+        timedEvent = timedEvent + 1;
 
     }
 
