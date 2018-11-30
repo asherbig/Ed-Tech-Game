@@ -125,6 +125,7 @@ DoMi.song.prototype = {
         }
 
         function actionOnClick6(event) {
+            document.body.style.cursor = "default";
             music.stop();
             game.state.start("bubblePop");
         }

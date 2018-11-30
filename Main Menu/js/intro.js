@@ -1,6 +1,6 @@
 DoMi.intro = function(game) {};
 
-var homeBtn, freeplayBtn, playlistBtn, continueBtn, noteFriend, shark, letterA, bubble, lessonAudio;
+var homeBtn, freeplayBtn, playlistBtn, continueBtn, BtnBGM, noteFriend, shark, letterA, bubble, lessonAudio;
 var timedEvent = 0;
 
 DoMi.intro.prototype = {
@@ -72,17 +72,13 @@ DoMi.intro.prototype = {
         continueBtn.onInputOut.add(out, this);
 
         if (BGM.isPlaying === true) {
-            musicOn = game.add.button(1250, 40, 'musicOn', actionOnClick4, this);
-            musicOn.alpha = 0.85;
-            musicOn.onInputOver.add(over, this);
-            musicOn.onInputOut.add(out, this);
+            BtnBGM = game.add.button(1250, 40, 'musicOn', actionOnClick5, this);
         } else {
-           musicOff = game.add.button(1250, 40, 'musicOff', actionOnClick4, this);
-            musicOff.alpha = 0.85;
-            musicOff.onInputOver.add(over, this);
-            musicOff.onInputOut.add(out, this); 
+           BtnBGM = game.add.button(1250, 40, 'musicOff', actionOnClick5, this);
         }
 
+        newBtnBGM();
+        
         //Instantiate whole note friend
         noteFriend = game.add.sprite(100, 200,'wholenote-friend');
 
@@ -99,11 +95,17 @@ DoMi.intro.prototype = {
 
         function actionOnClick1() {
             document.body.style.cursor = "default";
+            for (i = 0; i < lessonAudio.length; i++) {
+            lessonAudio[i].stop();
+            }
             game.state.start('mainMenu')
         }
 
         function actionOnClick2() {
             document.body.style.cursor = "default";
+            for (i = 0; i < lessonAudio.length; i++) {
+            lessonAudio[i].stop();
+            }
             game.state.start('freePlay');
         }
 
@@ -112,7 +114,42 @@ DoMi.intro.prototype = {
         }
 
         function actionOnClick4() {
+             document.body.style.cursor = "default";
+            for (i = 0; i < lessonAudio.length; i++) {
+            lessonAudio[i].stop();
+            }
             game.state.start("story-mode-freePlay");
+        }
+        
+        function newBtnBGM() {
+            BtnBGM.alpha = .85
+            BtnBGM.onInputOver.add(over1, this);
+            BtnBGM.onInputOut.add(out1, this);
+        }
+        
+            function over1() {
+            BtnBGM.alpha = 1;
+            document.body.style.cursor = "pointer";
+        }
+
+        function out1() {
+            BtnBGM.alpha = 0.85;
+            document.body.style.cursor = "default";
+        }
+        
+        function actionOnClick5() {
+           document.body.style.cursor = "default";
+            if (BGM.isPlaying === true) {
+                BtnBGM.destroy();
+                BtnBGM = game.add.button(1250, 40, 'musicOff', actionOnClick5, this);
+                newBtnBGM();
+                BGM.pause();
+            } else {
+                BtnBGM.destroy();
+                BtnBGM = game.add.button(1250, 40, 'musicOn', actionOnClick5, this);
+                newBtnBGM();
+                BGM.resume();
+            }
         }
 
         // need to time things for the bubble pop
@@ -143,14 +180,14 @@ DoMi.intro.prototype = {
         lessonAudio[8].onStop.addOnce(function() { lessonAudio[9].play(); }, this);
         lessonAudio[9].onStop.addOnce(function() { lessonAudio[10].play(); }, this);
         lessonAudio[10].onStop.addOnce(function() { lessonAudio[11].play(); }, this);
-        lessonAudio[11].onStop.addOnce(function() { lessonAudio[12].play(); }, this);
+        
 
         lessonAudio[0].play();
 
 
         // Initialize Letter A
-        letterA = [game.add.sprite(740, 230, 'capA'), game.add.sprite(740, 230, 'shortA'),
-            game.add.sprite(740, 230,'longA')];
+        letterA = [game.add.sprite(740, 330, 'capA'), game.add.sprite(740, 330, 'shortA'),
+            game.add.sprite(740, 330,'longA')];
         letterA[1].visible = false;
         letterA[2].visible = false;
         game.physics.enable(letterA[0], Phaser.Physics.ARCADE);

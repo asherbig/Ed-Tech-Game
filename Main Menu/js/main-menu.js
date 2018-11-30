@@ -22,7 +22,7 @@ DoMi.mainMenu.prototype = {
         game.add.image(0, -100, 'menuBG');
         game.add.image(250, 60, "logo");
         
-
+        //Instantiate buttons
         Btn1 = game.add.button(66, 360, 'storyMode', actionOnClick1, this);
 
         Btn1.alpha = .85
@@ -85,6 +85,7 @@ DoMi.mainMenu.prototype = {
             document.body.style.cursor = "default";
         }
 
+        //BGM toggles and settings
         if (bootMusic === true) {
         BGM = game.add.audio("BGM");
         BGM.loop = true;
