@@ -27,7 +27,8 @@ DoMi.intro.prototype = {
         game.load.image('wholenote-friend', 'images/intro/wholenote-friend.png');
 
         // Letter images
-        game.load.image('capA', 'images/intro/A.png');
+        game.load.image('bigA', 'images/intro/big-a.png');
+        game.load.image('littleA', 'images/intro/little-a.png');
         game.load.image('shortA', 'images/intro/short-a.png');
         game.load.image('longA', 'images/intro/long-a.png');
 
@@ -186,10 +187,11 @@ DoMi.intro.prototype = {
 
 
         // Initialize Letter A
-        letterA = [game.add.sprite(740, 330, 'capA'), game.add.sprite(740, 330, 'shortA'),
-            game.add.sprite(740, 330,'longA')];
+        letterA = [game.add.sprite(720, 190, 'bigA'), game.add.sprite(720, 190, 'littleA'),
+            game.add.sprite(720, 190, 'longA'), game.add.sprite(720, 190,'shortA')];
         letterA[1].visible = false;
         letterA[2].visible = false;
+        letterA[3].visible = false;
         game.physics.enable(letterA[0], Phaser.Physics.ARCADE);
 
         // start timed sequences
@@ -215,12 +217,12 @@ DoMi.intro.prototype = {
                     break;
                 case 2:
                     letterA[2].visible = false;
-                    letterA[1].visible = true;
+                    letterA[3].visible = true;
                     break;
                 case 3:
-                    letterA[1].visible = false;
+                    letterA[3].visible = false;
                     letterA[0].visible = true;
-                    letterA[0].reset(800,150);
+                    letterA[0].reset(720,190);
                     break;
                 case 4:
                     letterA[0].body.velocity.y = 15;
