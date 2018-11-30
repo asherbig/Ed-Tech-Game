@@ -7,7 +7,7 @@ DoMi.intro.prototype = {
 
     preload: function () {
         // Background
-        game.load.image('introBG', 'images/intro/intro-background.png');
+        game.load.image('introBG', 'images/intro/intro-BG.png');
 
         // Button images
         game.load.image('homeBtn', 'icons/home.png');
