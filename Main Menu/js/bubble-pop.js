@@ -44,8 +44,8 @@ DoMi.bubblePop.prototype = {
             game.load.image('x', 'images/bubble-pop/x.png');
             game.load.image('k', 'images/bubble-pop/k.png');
             game.load.image('e', 'images/bubble-pop/e-lowercase.png');
-            game.load.image('great-job-title', 'images/bubble-pop/great-job.png');
-            game.load.image('continue', 'images/bubble-pop/continue.png');
+            game.load.image('level-one-title', 'images/bubble-pop/level-one.png');
+            game.load.image('completed', 'images/bubble-pop/completed.png');
             game.load.image('note-friend', 'images/bubble-pop/notefriend.png');
             game.load.image('homeBtn2', 'icons/home-bigger.png');
 
@@ -347,8 +347,8 @@ DoMi.bubblePop.prototype = {
         function showExitScreen() {
             noteFriend.destroy();
             shark.destroy();
-            let victory = game.add.sprite(1366 / 2 - 639 / 2, 768 / 2 - 150, 'great-job-title');
-            let big = game.add.sprite(1366 / 2 - 540 / 2, 768 / 2 + 100, 'continue');
+            let victory = game.add.sprite(1366 / 2 - 639 / 2, 768 / 2 - 150, 'level-one-title');
+            let big = game.add.sprite(350, 475, 'completed');
             homeBtn2 = game.add.button(width/2 - 100, 328, 'homeBtn2', actionOnClick1, this);
             homeBtn2.alpha = 0.85;
             homeBtn2.onInputOver.add(over, this);
