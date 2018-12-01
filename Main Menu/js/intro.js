@@ -1,4 +1,4 @@
-DoMi.intro = function(game) {};
+DoMi.intro = function (game) {};
 
 var homeBtn, freeplayBtn, playlistBtn, continueBtn, BtnBGM, noteFriend, shark, letterA, bubble, lessonAudio;
 var timedEvent = 0;
@@ -31,23 +31,27 @@ DoMi.intro.prototype = {
         game.load.image('littleA', 'images/intro/little-a.png');
         game.load.image('shortA', 'images/intro/short-a.png');
         game.load.image('longA', 'images/intro/long-a.png');
+        game.load.image('movingA', 'images/intro/moving-a.png');
+        
+        // Lesson ending image
+        game.load.image('lessonEnd', 'images/intro/lesson-ending.png');
 
         // Introduction Audio
-        game.load.audio('lesson1LetterA','audio/intro/This is the letter A.mp3');
-        game.load.audio('lesson1BigA','audio/intro/This is a Big A.mp3');
-        game.load.audio('lesson1LittleA','audio/intro/This is Little A.mp3');
-        game.load.audio('lesson1TwoSounds','audio/intro/A can_2 sounds.mp3');
-        game.load.audio('lesson1LetterALong','audio/intro/Long A sound lesson.mp3');
-        game.load.audio('lesson1LetterALongEx','audio/intro/Long A Lesson_Ape.mp3');
-        game.load.audio('lesson1LetterAShort','audio/intro/Short a sound lesson.mp3');
-        game.load.audio('lesson1LetterAShortEx','audio/intro/Short a Lesson_apple.mp3');
-        game.load.audio('lesson1LetterAlistenLow','audio/intro/Lesson_Getting Lower.mp3');
-        game.load.audio('lesson1LetterAGoingLow','audio/intro/Lets Listen Lower.mp3');
-        game.load.audio('lesson1LetterAListenHigh','audio/intro/Lesson_Getting Higher.mp3');
-        game.load.audio('lesson1LetterAGoingHigh','audio/intro/Lets Listen Higher.mp3');
+        game.load.audio('lesson1LetterA', 'audio/intro/This is the letter A.mp3');
+        game.load.audio('lesson1BigA', 'audio/intro/This is a Big A.mp3');
+        game.load.audio('lesson1LittleA', 'audio/intro/This is Little A.mp3');
+        game.load.audio('lesson1TwoSounds', 'audio/intro/A can_2 sounds.mp3');
+        game.load.audio('lesson1LetterALong', 'audio/intro/Long A sound lesson.mp3');
+        game.load.audio('lesson1LetterALongEx', 'audio/intro/Long A Lesson_Ape.mp3');
+        game.load.audio('lesson1LetterAShort', 'audio/intro/Short a sound lesson.mp3');
+        game.load.audio('lesson1LetterAShortEx', 'audio/intro/Short a Lesson_apple.mp3');
+        game.load.audio('lesson1LetterAlistenLow', 'audio/intro/Lesson_Getting Lower.mp3');
+        game.load.audio('lesson1LetterAGoingLow', 'audio/intro/Lets Listen Lower.mp3');
+        game.load.audio('lesson1LetterAListenHigh', 'audio/intro/Lesson_Getting Higher.mp3');
+        game.load.audio('lesson1LetterAGoingHigh', 'audio/intro/Lets Listen Higher.mp3');
     },
 
-    create: function() {
+    create: function () {
         // Background of level
         game.add.image(0, 0, 'introBG');
 
@@ -75,13 +79,13 @@ DoMi.intro.prototype = {
         if (BGM.isPlaying === true) {
             BtnBGM = game.add.button(1250, 40, 'musicOn', actionOnClick5, this);
         } else {
-           BtnBGM = game.add.button(1250, 40, 'musicOff', actionOnClick5, this);
+            BtnBGM = game.add.button(1250, 40, 'musicOff', actionOnClick5, this);
         }
 
         newBtnBGM();
-        
+
         //Instantiate whole note friend
-        noteFriend = game.add.sprite(100, 200,'wholenote-friend');
+        noteFriend = game.add.sprite(100, 200, 'wholenote-friend');
 
         // Set button hover and click actions
         function over(event) {
@@ -97,7 +101,7 @@ DoMi.intro.prototype = {
         function actionOnClick1() {
             document.body.style.cursor = "default";
             for (i = 0; i < lessonAudio.length; i++) {
-            lessonAudio[i].stop();
+                lessonAudio[i].stop();
             }
             game.state.start('mainMenu')
         }
@@ -105,7 +109,7 @@ DoMi.intro.prototype = {
         function actionOnClick2() {
             document.body.style.cursor = "default";
             for (i = 0; i < lessonAudio.length; i++) {
-            lessonAudio[i].stop();
+                lessonAudio[i].stop();
             }
             game.state.start('freePlay');
         }
@@ -115,20 +119,20 @@ DoMi.intro.prototype = {
         }
 
         function actionOnClick4() {
-             document.body.style.cursor = "default";
+            document.body.style.cursor = "default";
             for (i = 0; i < lessonAudio.length; i++) {
-            lessonAudio[i].stop();
+                lessonAudio[i].stop();
             }
             game.state.start("story-mode-freePlay");
         }
-        
+
         function newBtnBGM() {
             BtnBGM.alpha = .85
             BtnBGM.onInputOver.add(over1, this);
             BtnBGM.onInputOut.add(out1, this);
         }
-        
-            function over1() {
+
+        function over1() {
             BtnBGM.alpha = 1;
             document.body.style.cursor = "pointer";
         }
@@ -137,9 +141,9 @@ DoMi.intro.prototype = {
             BtnBGM.alpha = 0.85;
             document.body.style.cursor = "default";
         }
-        
+
         function actionOnClick5() {
-           document.body.style.cursor = "default";
+            document.body.style.cursor = "default";
             if (BGM.isPlaying === true) {
                 BtnBGM.destroy();
                 BtnBGM = game.add.button(1250, 40, 'musicOff', actionOnClick5, this);
@@ -170,40 +174,66 @@ DoMi.intro.prototype = {
             ];
 
         // Sequentially play lesson clips
-        lessonAudio[0].onStop.addOnce(function() { lessonAudio[1].play(); }, this);
-        lessonAudio[1].onStop.addOnce(function() { lessonAudio[2].play(); }, this);
-        lessonAudio[2].onStop.addOnce(function() { lessonAudio[3].play(); }, this);
-        lessonAudio[3].onStop.addOnce(function() { lessonAudio[4].play(); }, this);
-        lessonAudio[4].onStop.addOnce(function() { lessonAudio[5].play(); }, this);
-        lessonAudio[5].onStop.addOnce(function() { lessonAudio[6].play(); }, this);
-        lessonAudio[6].onStop.addOnce(function() { lessonAudio[7].play(); }, this);
-        lessonAudio[7].onStop.addOnce(function() { lessonAudio[8].play(); }, this);
-        lessonAudio[8].onStop.addOnce(function() { lessonAudio[9].play(); }, this);
-        lessonAudio[9].onStop.addOnce(function() { lessonAudio[10].play(); }, this);
-        lessonAudio[10].onStop.addOnce(function() { lessonAudio[11].play(); }, this);
-        
+        lessonAudio[0].onStop.addOnce(function () {
+            lessonAudio[1].play();
+        }, this);
+        lessonAudio[1].onStop.addOnce(function () {
+            lessonAudio[2].play();
+        }, this);
+        lessonAudio[2].onStop.addOnce(function () {
+            lessonAudio[3].play();
+        }, this);
+        lessonAudio[3].onStop.addOnce(function () {
+            lessonAudio[4].play();
+        }, this);
+        lessonAudio[4].onStop.addOnce(function () {
+            lessonAudio[5].play();
+        }, this);
+        lessonAudio[5].onStop.addOnce(function () {
+            lessonAudio[6].play();
+        }, this);
+        lessonAudio[6].onStop.addOnce(function () {
+            lessonAudio[7].play();
+        }, this);
+        lessonAudio[7].onStop.addOnce(function () {
+            lessonAudio[8].play();
+        }, this);
+        lessonAudio[8].onStop.addOnce(function () {
+            lessonAudio[9].play();
+        }, this);
+        lessonAudio[9].onStop.addOnce(function () {
+            lessonAudio[10].play();
+        }, this);
+        lessonAudio[10].onStop.addOnce(function () {
+            lessonAudio[11].play();
+        }, this);
 
-        lessonAudio[0].play();
 
+        lessonAudio[0].play(); 
 
         // Initialize Letter A
-        letterA = [game.add.sprite(720, 190, 'bigA'), game.add.sprite(720, 190, 'littleA'),
-            game.add.sprite(720, 190, 'longA'), game.add.sprite(720, 190,'shortA')];
+        letterA = [game.add.sprite(700, 230, 'bigA'),
+        game.add.sprite(700, 230, 'littleA'),
+        game.add.sprite(700, 230, 'longA'),
+        game.add.sprite(700, 230, 'shortA'),
+        game.add.sprite(780, 150, 'movingA')];
         letterA[1].visible = false;
         letterA[2].visible = false;
         letterA[3].visible = false;
-        game.physics.enable(letterA[0], Phaser.Physics.ARCADE);
+        letterA[4].visible = false;
+        game.physics.enable(letterA[4], Phaser.Physics.ARCADE);
 
         // start timed sequences
-        game.time.events.add(16600,updateLetter,this);
-        game.time.events.add(28500,updateLetter,this);
-        game.time.events.add(69000,updateLetter,this);
-        game.time.events.add(110500,updateLetter,this);
-        game.time.events.add(132500,updateLetter,this);
-        game.time.events.add(159000,updateLetter,this);
-        game.time.events.add(162000,updateLetter,this);
-        game.time.events.add(189000,updateLetter,this);
-    
+        game.time.events.add(16600, updateLetter, this);
+        game.time.events.add(28500, updateLetter, this);
+        game.time.events.add(69000, updateLetter, this);
+        game.time.events.add(110500, updateLetter, this);
+        game.time.events.add(130000, updateLetter, this);
+        game.time.events.add(146000, updateLetter, this);
+        game.time.events.add(168000, updateLetter, this);
+        game.time.events.add(184000, updateLetter, this);
+        game.time.events.add(186000, updateLetter, this)
+
         function updateLetter(eventNum) {
             console.log(timedEvent);
             switch (timedEvent) {
@@ -221,25 +251,27 @@ DoMi.intro.prototype = {
                     break;
                 case 3:
                     letterA[3].visible = false;
-                    letterA[0].visible = true;
-                    letterA[0].reset(720,190);
+                    letterA[4].visible = true;
                     break;
                 case 4:
-                    letterA[0].body.velocity.y = 15;
+                    letterA[4].body.velocity.y = 22;
                     break;
                 case 5:
-                    letterA[0].body.velocity.y = 0;
+                    letterA[4].body.velocity.y = 0;
                     break;
                 case 6:
-                    letterA[0].body.velocity.y = -15;
+                    letterA[4].body.velocity.y = -22;
                     break;
                 case 7:
-                    letterA[0].body.velocity.y = 0;
+                    letterA[4].body.velocity.y = 0;
                     break;
+                case 8:
+                    letterA[4].visible = false;
+                    game.add.image(350, 120, 'lessonEnd');  
             }
-    
+
             timedEvent = timedEvent + 1;
-    
+
         }
     }
 }
